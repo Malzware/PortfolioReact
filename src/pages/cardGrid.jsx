@@ -1,16 +1,16 @@
 // pages/CardGrid.jsx
 import * as React from 'react';
 import CustomCard from '../components/card.jsx';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 const cardData = [
     {
         id: 1,
         image: '/src/assets/img/unity1.png',
         title: 'Projet Unity 3D',
-        tags: ['React'],
+        tags: ['GAMES'],
         description: 'Un jeu 3D développé avec Unity.',
-        bubbleText: 'Unity 3D ->',
+        bubbleText: 'Unity 3D',
         size: 'medium',
         gridColumn: 1,
         gridRow: 1,
@@ -21,7 +21,7 @@ const cardData = [
         id: 2,
         image: '/src/assets/img/unity1.png',
         title: 'Site React',
-        tags: ['Projet Web', 'React'],
+        tags: ['Web-Development'],
         description: 'Un site web moderne réalisé avec React.',
         bubbleText: 'React',
         size: 'large',
@@ -34,7 +34,7 @@ const cardData = [
         id: 3,
         image: '/src/assets/img/unity1.png',
         title: 'Scripts Python',
-        tags: ['Scripts'],
+        tags: ['SCRIPTS'],
         description: 'Automatisation avec des scripts Python.',
         bubbleText: 'Python',
         size: 'small',
@@ -47,7 +47,7 @@ const cardData = [
         id: 4,
         image: '/src/assets/img/unity1.png',
         title: 'App Mobile',
-        tags: ['Mobile'],
+        tags: ['GAMES'],
         description: 'Une application mobile native.',
         bubbleText: 'Mobile',
         size: 'medium',
@@ -59,8 +59,8 @@ const cardData = [
     {
         id: 5,
         image: '/src/assets/img/unity1.png',
-        title: 'Base de données',
-        tags: ['Backend'],
+        title: 'Développement Web',
+        tags: ['Web-Development'],
         description: 'Conception de base de données complexe.',
         bubbleText: 'Database',
         size: 'small',
@@ -72,10 +72,10 @@ const cardData = [
     {
         id: 6,
         image: '/src/assets/img/unity1.png',
-        title: 'IA & ML',
-        tags: ['IA'],
-        description: 'Modèles d\'apprentissage automatique.',
-        bubbleText: 'AI/ML',
+        title: 'Développement Web',
+        tags: ['SCRIPTS'],
+        description: 'Conception de base de données complexe.',
+        bubbleText: 'Développement Web',
         size: 'large',
         gridColumn: 2,
         gridRow: 4,
@@ -86,7 +86,7 @@ const cardData = [
         id: 7,
         image: '/src/assets/img/unity1.png',
         title: 'API REST',
-        tags: ['Backend'],
+        tags: ['Web-Development'],
         description: 'Développement d\'APIs REST robustes.',
         bubbleText: 'API',
         size: 'small',
@@ -99,7 +99,7 @@ const cardData = [
         id: 8,
         image: '/src/assets/img/unity1.png',
         title: 'DevOps',
-        tags: ['DevOps'],
+        tags: ['SCRIPTS'],
         description: 'Automatisation et déploiement continu.',
         bubbleText: 'DevOps',
         size: 'small',
@@ -112,7 +112,7 @@ const cardData = [
         id: 9,
         image: '/src/assets/img/unity1.png',
         title: 'Design System',
-        tags: ['Design'],
+        tags: ['Web-Development'],
         description: 'Création de systèmes de design cohérents.',
         bubbleText: 'Design',
         size: 'medium',
@@ -121,34 +121,21 @@ const cardData = [
         width: 1,
         height: 2
     },
-    {
-        id: 10,
-        image: '/src/assets/img/unity1.png',
-        title: 'Blockchain',
-        tags: ['Crypto'],
-        description: 'Développement sur blockchain.',
-        bubbleText: 'Crypto',
-        size: 'small',
-        gridColumn: 3,
-        gridRow: 6,
-        width: 1,
-        height: 1
-    }
 ];
 
 export default function CardGrid() {
-    const [selectedTag, setSelectedTag] = React.useState('Tous');
-    const allTags = ['Tous', ...new Set(cardData.flatMap(card => card.tags))];
-    
+    const [selectedTag, setSelectedTag] = React.useState('ALL');
+    const allTags = ['ALL', 'GAMES', 'Web-Development', 'SCRIPTS'];
+
     // Ne plus filtrer les cartes, mais les marquer comme visibles ou non
     const processedCards = cardData.map(card => ({
         ...card,
-        isVisible: selectedTag === 'Tous' || card.tags.includes(selectedTag)
+        isVisible: selectedTag === 'ALL' || card.tags.includes(selectedTag)
     }));
 
     // Couleurs pour les petits carrés de remplacement
     const placeholderColors = [
-        '#052843', '#F9CB2E', '#A66455', '#9EC1BF', 
+        '#052843', '#F9CB2E', '#A66455', '#9EC1BF',
         '#B79D99', '#523C25', '#ABB194', '#45353C'
     ];
 
@@ -161,33 +148,71 @@ export default function CardGrid() {
     };
 
     return (
-        <Box sx={{ 
-            width: '100%', 
+        <Box sx={{
+            width: '100%',
             maxWidth: '100vw', // Empêche le débordement horizontal
             overflow: 'hidden' // Empêche tout débordement
         }}>
-            {/* Filtres par tags */}
-            <Box sx={{ mb: 3, display: 'flex', gap: 1, flexWrap: 'wrap', px: 2 }}>
-                {allTags.map(tag => (
-                    <Box
-                        key={tag}
-                        onClick={() => setSelectedTag(tag)}
-                        sx={{
-                            px: 2,
-                            py: 1,
-                            borderRadius: 2,
-                            cursor: 'pointer',
-                            backgroundColor: selectedTag === tag ? 'primary.main' : 'grey.200',
-                            color: selectedTag === tag ? 'white' : 'text.primary',
-                            transition: 'all 0.2s ease',
-                            '&:hover': {
-                                backgroundColor: selectedTag === tag ? 'primary.dark' : 'grey.300',
-                            }
-                        }}
-                    >
-                        {tag}
-                    </Box>
-                ))}
+            {/* Header avec WORK et filtres */}
+            <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 4,
+                mb: 4,
+                px: 2,
+                '@media (max-width: 768px)': {
+                    flexDirection: 'column',
+                    alignItems: 'flex-start',
+                    gap: 2,
+                }
+            }}>
+                <Typography
+                    variant="h1"
+                    sx={{
+                        fontSize: { xs: '3rem', sm: '4rem', md: '5rem', lg: '6rem' },
+                        fontWeight: 900,
+                        color: '#000',
+                        letterSpacing: '-0.02em',
+                        lineHeight: 0.9,
+                        margin: 0,
+                        flexShrink: 0
+                    }}
+                >
+                    PORTFOLIO
+                </Typography>
+
+                <Box sx={{
+                    display: 'flex',
+                    gap: 1,
+                    flexWrap: 'wrap',
+                    '@media (max-width: 768px)': {
+                        width: '100%',
+                    }
+                }}>
+                    {allTags.map(tag => (
+                        <Box
+                            key={tag}
+                            onClick={() => setSelectedTag(tag)}
+                            sx={{
+                                px: 2,
+                                py: 1,
+                                borderRadius: 0,
+                                cursor: 'pointer',
+                                color: selectedTag === tag ? '#fff' : '#888', // gris clair si non sélectionné
+                                transition: 'all 0.2s ease',
+                                fontSize: '0.9rem',
+                                fontWeight: 600,
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.5px',
+                                '&:hover': {
+                                    color: selectedTag === tag ? '#fff' : '#fff'
+                                }
+                            }}
+                        >
+                            [{tag}]
+                        </Box>
+                    ))}
+                </Box>
             </Box>
 
             {/* Grille mosaïque avec 4 colonnes et trous */}
@@ -196,33 +221,33 @@ export default function CardGrid() {
                     display: 'grid',
                     gridTemplateColumns: 'repeat(4, 1fr)', // 4 colonnes fixes
                     gridAutoRows: '200px', // Hauteur de base de chaque unité de grille
-                    gap: 2, // Espacement entre les blocs (16px)
+                    gap: 0, // SUPPRIMÉ : Aucun espacement entre les blocs
                     width: '100%',
-                    maxWidth: 'calc(100vw - 32px)', // Évite le débordement
-                    padding: 2, // Padding intérieur
+                    maxWidth: '100vw', // Évite le débordement
+                    padding: 0, // SUPPRIMÉ : Aucun padding intérieur
                     minHeight: '1000px', // Hauteur minimale pour bien voir les trous
-                    boxSizing: 'border-box', // Inclut le padding dans la largeur
+                    boxSizing: 'border-box',
                     // Responsive
                     '@media (max-width: 600px)': {
                         gridTemplateColumns: 'repeat(2, 1fr)',
                         gridAutoRows: '150px',
-                        gap: 1,
-                        padding: 1,
-                        maxWidth: 'calc(100vw - 16px)',
+                        gap: 0,
+                        padding: 0,
+                        maxWidth: '100vw',
                     },
                     '@media (min-width: 601px) and (max-width: 960px)': {
                         gridTemplateColumns: 'repeat(3, 1fr)',
                         gridAutoRows: '180px',
-                        gap: 1.5,
-                        padding: 1.5,
-                        maxWidth: 'calc(100vw - 24px)',
+                        gap: 0,
+                        padding: 0,
+                        maxWidth: '100vw',
                     },
                     '@media (min-width: 961px)': {
                         gridTemplateColumns: 'repeat(4, 1fr)',
                         gridAutoRows: '200px',
-                        gap: 2,
-                        padding: 2,
-                        maxWidth: 'calc(100vw - 32px)',
+                        gap: 0,
+                        padding: 0,
+                        maxWidth: '100vw',
                     }
                 }}
             >
@@ -233,6 +258,9 @@ export default function CardGrid() {
                             ...getGridDimensions(card),
                             minHeight: 0, // Important pour éviter les débordements
                             minWidth: 0, // Important pour éviter les débordements
+                            // Contour blanc seulement pour les cartes visibles
+                            border: card.isVisible ? '1px solid white' : 'none',
+                            boxSizing: 'border-box', // S'assure que la bordure est incluse dans les dimensions
                         }}
                     >
                         {card.isVisible ? (
@@ -261,7 +289,7 @@ export default function CardGrid() {
                                         height: '30%',
                                         backgroundColor: placeholderColors[index % placeholderColors.length],
                                         borderRadius: '2px',
-                                        opacity: 0.7,
+                                        opacity: 1,
                                     }}
                                     title={`${card.title} - ${card.tags.join(', ')}`} // Tooltip au survol
                                 />

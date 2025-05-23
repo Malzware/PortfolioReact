@@ -5,6 +5,20 @@ import CardContent from '@mui/material/CardContent';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
+const getOverlayColorByTag = (tags) => {
+    const mainTag = tags[0]?.toLowerCase();
+    switch (mainTag) {
+        case 'games':
+            return 'rgba(21, 230, 38, 0.9)'; // #15E626
+        case 'web-development':
+            return 'rgba(230, 21, 94, 0.9)'; // #E6155E
+        case 'scripts':
+            return 'rgba(230, 170, 21, 0.9)'; // #E6AA15
+        default:
+            return 'rgba(0, 0, 0, 0.7)'; // fallback
+    }
+};
+
 export default function CustomCard({ image, title, tags = [], bubbleText, description, size }) {
     const [hover, setHover] = React.useState(false);
     const [animatedText, setAnimatedText] = React.useState('');
@@ -73,10 +87,11 @@ export default function CustomCard({ image, title, tags = [], bubbleText, descri
                 cursor: 'pointer',
                 display: 'flex',
                 flexDirection: 'column',
-                transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                borderRadius: 0, // AJOUTÉ : Supprime les bords arrondis
+                transition: 'box-shadow 0.2s ease', // SUPPRIMÉ : transform de la transition
                 boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)', // Ombre légère par défaut
                 '&:hover': {
-                    transform: 'scale(1.03)', // Légèrement plus d'effet avec les espacements
+                    // SUPPRIMÉ : transform: 'scale(1.03)'
                     boxShadow: '0 12px 40px rgba(0, 0, 0, 0.25)',
                     zIndex: 10,
                 }
@@ -88,9 +103,9 @@ export default function CustomCard({ image, title, tags = [], bubbleText, descri
                 <img
                     src={image}
                     alt={title}
-                    style={{ 
-                        width: '100%', 
-                        height: '100%', 
+                    style={{
+                        width: '100%',
+                        height: '100%',
                         objectFit: 'cover',
                         display: 'block',
                     }}
@@ -102,8 +117,8 @@ export default function CustomCard({ image, title, tags = [], bubbleText, descri
                 sx={{
                     position: 'absolute',
                     top: 0, left: 0, right: 0, bottom: 0,
-                    background: hover 
-                        ? 'linear-gradient(135deg, rgba(33, 150, 243, 0.9), rgba(156, 39, 176, 0.9))'
+                    background: hover
+                        ? getOverlayColorByTag(tags)
                         : 'transparent',
                     opacity: hover ? 1 : 0,
                     transition: 'opacity 0.4s ease',
@@ -127,11 +142,11 @@ export default function CustomCard({ image, title, tags = [], bubbleText, descri
                     transform: hover ? 'translateY(0)' : 'translateY(20px)',
                 }}
             >
-                <Typography 
-                    variant={getTitleFontSize()} 
-                    color="white" 
-                    sx={{ 
-                        textAlign: 'center', 
+                <Typography
+                    variant={getTitleFontSize()}
+                    color="white"
+                    sx={{
+                        textAlign: 'center',
                         px: 2,
                         fontWeight: 'bold',
                         textShadow: '0 2px 4px rgba(0,0,0,0.5)'
@@ -158,10 +173,10 @@ export default function CustomCard({ image, title, tags = [], bubbleText, descri
                     backdropFilter: 'blur(4px)',
                 }}
             >
-                <Typography 
-                    variant="caption" 
-                    color="textPrimary" 
-                    sx={{ 
+                <Typography
+                    variant="caption"
+                    color="textPrimary"
+                    sx={{
                         fontWeight: 600,
                         fontSize: 'inherit'
                     }}
@@ -187,10 +202,10 @@ export default function CustomCard({ image, title, tags = [], bubbleText, descri
                         backdropFilter: 'blur(4px)',
                     }}
                 >
-                    <Typography 
-                        variant="body2" 
+                    <Typography
+                        variant="body2"
                         color="white"
-                        sx={{ 
+                        sx={{
                             fontSize: 'inherit',
                             lineHeight: 1.3
                         }}
