@@ -1,7 +1,8 @@
 // pages/CardGrid.jsx
 import * as React from 'react';
 import CustomCard from '../components/card.jsx';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
+import { motion } from 'framer-motion';
 
 const cardData = [
     {
@@ -15,12 +16,13 @@ const cardData = [
         gridColumn: 1,
         gridRow: 1,
         width: 1, // largeur en unités de grille
-        height: 2 // hauteur en unités de grille
+        height: 2, // hauteur en unités de grille
+        link: 'https://github.com/user/unity-project' // Exemple de lien
     },
     {
         id: 2,
         image: '/src/assets/img/unity1.png',
-        title: 'Site React',
+        title: 'Portfolio React',
         tags: ['Web-Development'],
         description: 'Un site web moderne réalisé avec React.',
         bubbleText: 'React',
@@ -28,7 +30,8 @@ const cardData = [
         gridColumn: 3,
         gridRow: 1,
         width: 1, // carte plus large
-        height: 3 // hauteur en unités de grille
+        height: 3, // hauteur en unités de grille
+        link: 'https://github.com/user/react-site' // Exemple de lien
     },
     {
         id: 3,
@@ -41,7 +44,8 @@ const cardData = [
         gridColumn: 1,
         gridRow: 3,
         width: 1,
-        height: 1
+        height: 1,
+        link: 'https://github.com/user/python-scripts' // Exemple de lien
     },
     {
         id: 4,
@@ -54,7 +58,8 @@ const cardData = [
         gridColumn: 2,
         gridRow: 2,
         width: 1,
-        height: 2
+        height: 2,
+        // Pas de lien pour cette carte
     },
     {
         id: 5,
@@ -67,7 +72,8 @@ const cardData = [
         gridColumn: 1,
         gridRow: 4,
         width: 1,
-        height: 1
+        height: 1,
+        link: 'https://github.com/user/database-project' // Exemple de lien
     },
     {
         id: 6,
@@ -80,7 +86,8 @@ const cardData = [
         gridColumn: 2,
         gridRow: 4,
         width: 2, // carte plus large
-        height: 2
+        height: 2,
+        link: 'https://mywebsite.com' // Exemple de lien
     },
     {
         id: 7,
@@ -93,7 +100,8 @@ const cardData = [
         gridColumn: 4,
         gridRow: 2,
         width: 1,
-        height: 1
+        height: 1,
+        link: 'https://github.com/user/api-rest' // Exemple de lien
     },
     {
         id: 8,
@@ -106,7 +114,8 @@ const cardData = [
         gridColumn: 4,
         gridRow: 3,
         width: 1,
-        height: 1
+        height: 1,
+        // Pas de lien pour cette carte
     },
     {
         id: 9,
@@ -119,27 +128,43 @@ const cardData = [
         gridColumn: 4,
         gridRow: 4,
         width: 1,
-        height: 2
+        height: 2,
+        link: 'https://design-system.example.com' // Exemple de lien
     },
 ];
 
 export default function CardGrid() {
     const [selectedTag, setSelectedTag] = React.useState('ALL');
+    const [isMobile, setIsMobile] = React.useState(false);
     const allTags = ['ALL', 'GAMES', 'Web-Development', 'SCRIPTS'];
 
-    // Ne plus filtrer les cartes, mais les marquer comme visibles ou non
+    const theme = useTheme();
+    const isDarkMode = theme.palette.mode === 'dark';
+
+    React.useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+        
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
     const processedCards = cardData.map(card => ({
         ...card,
         isVisible: selectedTag === 'ALL' || card.tags.includes(selectedTag)
     }));
 
-    // Couleurs pour les petits carrés de remplacement
+    // Filtrer seulement les cartes visibles pour mobile
+    const visibleCards = processedCards.filter(card => card.isVisible);
+
     const placeholderColors = [
         '#052843', '#F9CB2E', '#A66455', '#9EC1BF',
         '#B79D99', '#523C25', '#ABB194', '#45353C'
     ];
 
-    // Fonction pour obtenir les dimensions CSS Grid selon la position et les dimensions personnalisées
     const getGridDimensions = (card) => {
         return {
             gridColumn: `${card.gridColumn} / span ${card.width}`,
@@ -147,67 +172,69 @@ export default function CardGrid() {
         };
     };
 
+    // ✅ Styles des boutons en fonction du thème
+    const getButtonStyles = (isSelected) => ({
+        p: 0,
+        borderRadius: 0,
+        cursor: 'pointer',
+        transition: 'all 0.3s ease',
+        fontSize: '0.9rem',
+        fontWeight: 600,
+        textTransform: 'uppercase',
+        letterSpacing: '0.5px',
+        border: '1px solid transparent',
+
+        // ✅ Couleurs selon le thème et l'état
+        ...(isDarkMode ? {
+            // Mode sombre
+            color: isSelected ? '#fff' : '#888',
+            '&:hover': {
+                color: '#fff',
+            }
+        } : {
+            // Mode clair
+            color: isSelected ? '#000' : '#666',
+            '&:hover': {
+                color: '#000',
+            }
+        })
+    });
+
     return (
         <Box sx={{
             width: '100%',
-            maxWidth: '100vw', // Empêche le débordement horizontal
-            overflow: 'hidden' // Empêche tout débordement
+            maxWidth: '100vw',
+            overflow: 'hidden',
         }}>
-            {/* Header avec WORK et filtres */}
+            {/* Header avec filtres */}
             <Box sx={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: 4,
                 mb: 4,
-                px: 2,
+                p: 0,
                 '@media (max-width: 768px)': {
                     flexDirection: 'column',
                     alignItems: 'flex-start',
                     gap: 2,
+                    mb: 3,
                 }
             }}>
-                <Typography
-                    variant="h1"
-                    sx={{
-                        fontSize: { xs: '3rem', sm: '4rem', md: '5rem', lg: '6rem' },
-                        fontWeight: 900,
-                        color: '#000',
-                        letterSpacing: '-0.02em',
-                        lineHeight: 0.9,
-                        margin: 0,
-                        flexShrink: 0
-                    }}
-                >
-                    PORTFOLIO
-                </Typography>
-
                 <Box sx={{
                     display: 'flex',
                     gap: 1,
                     flexWrap: 'wrap',
                     '@media (max-width: 768px)': {
                         width: '100%',
+                        justifyContent: 'center',
+                        gap: 2,
                     }
                 }}>
                     {allTags.map(tag => (
                         <Box
                             key={tag}
                             onClick={() => setSelectedTag(tag)}
-                            sx={{
-                                px: 2,
-                                py: 1,
-                                borderRadius: 0,
-                                cursor: 'pointer',
-                                color: selectedTag === tag ? '#fff' : '#888', // gris clair si non sélectionné
-                                transition: 'all 0.2s ease',
-                                fontSize: '0.9rem',
-                                fontWeight: 600,
-                                textTransform: 'uppercase',
-                                letterSpacing: '0.5px',
-                                '&:hover': {
-                                    color: selectedTag === tag ? '#fff' : '#fff'
-                                }
-                            }}
+                            sx={getButtonStyles(selectedTag === tag)}
                         >
                             [{tag}]
                         </Box>
@@ -215,89 +242,128 @@ export default function CardGrid() {
                 </Box>
             </Box>
 
-            {/* Grille mosaïque avec 4 colonnes et trous */}
-            <Box
-                sx={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(4, 1fr)', // 4 colonnes fixes
-                    gridAutoRows: '200px', // Hauteur de base de chaque unité de grille
-                    gap: 0, // SUPPRIMÉ : Aucun espacement entre les blocs
-                    width: '100%',
-                    maxWidth: '100vw', // Évite le débordement
-                    padding: 0, // SUPPRIMÉ : Aucun padding intérieur
-                    minHeight: '1000px', // Hauteur minimale pour bien voir les trous
-                    boxSizing: 'border-box',
-                    // Responsive
-                    '@media (max-width: 600px)': {
-                        gridTemplateColumns: 'repeat(2, 1fr)',
-                        gridAutoRows: '150px',
-                        gap: 0,
-                        padding: 0,
-                        maxWidth: '100vw',
-                    },
-                    '@media (min-width: 601px) and (max-width: 960px)': {
-                        gridTemplateColumns: 'repeat(3, 1fr)',
-                        gridAutoRows: '180px',
-                        gap: 0,
-                        padding: 0,
-                        maxWidth: '100vw',
-                    },
-                    '@media (min-width: 961px)': {
-                        gridTemplateColumns: 'repeat(4, 1fr)',
-                        gridAutoRows: '200px',
-                        gap: 0,
-                        padding: 0,
-                        maxWidth: '100vw',
-                    }
-                }}
-            >
-                {processedCards.map((card, index) => (
-                    <Box
-                        key={card.id}
-                        sx={{
-                            ...getGridDimensions(card),
-                            minHeight: 0, // Important pour éviter les débordements
-                            minWidth: 0, // Important pour éviter les débordements
-                            // Contour blanc seulement pour les cartes visibles
-                            border: card.isVisible ? '1px solid white' : 'none',
-                            boxSizing: 'border-box', // S'assure que la bordure est incluse dans les dimensions
-                        }}
-                    >
-                        {card.isVisible ? (
+            {/* Affichage conditionnel : Desktop vs Mobile */}
+            {isMobile ? (
+                // ✅ Version Mobile : Liste verticale simple
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 3,
+                        width: '100%',
+                        padding: '0 16px',
+                    }}
+                >
+                    {visibleCards.map((card, index) => (
+                        <motion.div
+                            key={card.id}
+                            style={{
+                                width: '100%',
+                                height: '250px', // Hauteur fixe pour mobile
+                                minHeight: 0,
+                                minWidth: 0,
+                                boxSizing: 'border-box',
+                            }}
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{
+                                duration: 0.5,
+                                delay: index * 0.1,
+                                ease: 'easeOut',
+                            }}
+                        >
                             <CustomCard
                                 image={card.image}
                                 title={card.title}
                                 tags={card.tags}
                                 description={card.description}
                                 bubbleText={card.bubbleText}
-                                size={card.size}
+                                size="medium" // Taille uniforme sur mobile
+                                link={card.link}
                             />
-                        ) : (
-                            // Petit carré coloré de remplacement (plus petit et centré)
-                            <Box
-                                sx={{
-                                    width: '100%',
-                                    height: '100%',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
+                        </motion.div>
+                    ))}
+                </Box>
+            ) : (
+                // ✅ Version Desktop : Grille complexe
+                <Box
+                    sx={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(4, 1fr)',
+                        gridAutoRows: '200px',
+                        gap: 2,
+                        width: '100%',
+                        maxWidth: '100vw',
+                        padding: 0,
+                        minHeight: '1000px',
+                        boxSizing: 'border-box',
+                        '@media (min-width: 601px) and (max-width: 960px)': {
+                            gridTemplateColumns: 'repeat(3, 1fr)',
+                            gridAutoRows: '180px',
+                            gap: 2,
+                        },
+                        '@media (min-width: 961px)': {
+                            gridTemplateColumns: 'repeat(4, 1fr)',
+                            gridAutoRows: '200px',
+                            gap: 2,
+                        }
+                    }}
+                >
+                    {processedCards
+                        .sort((a, b) => a.gridRow - b.gridRow)
+                        .map((card, index) => (
+                            <motion.div
+                                key={card.id}
+                                style={{
+                                    ...getGridDimensions(card),
+                                    minHeight: 0,
+                                    minWidth: 0,
+                                    boxSizing: 'border-box',
+                                }}
+                                initial={{ opacity: 0, y: 50 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{
+                                    duration: 0.6,
+                                    delay: index * 0.15,
+                                    ease: 'easeOut',
                                 }}
                             >
-                                <Box
-                                    sx={{
-                                        width: '30%', // Très petit carré
-                                        height: '30%',
-                                        backgroundColor: placeholderColors[index % placeholderColors.length],
-                                        borderRadius: '2px',
-                                        opacity: 1,
-                                    }}
-                                    title={`${card.title} - ${card.tags.join(', ')}`} // Tooltip au survol
-                                />
-                            </Box>
-                        )}
-                    </Box>
-                ))}
-            </Box>
+                                {card.isVisible ? (
+                                    <CustomCard
+                                        image={card.image}
+                                        title={card.title}
+                                        tags={card.tags}
+                                        description={card.description}
+                                        bubbleText={card.bubbleText}
+                                        size={card.size}
+                                        link={card.link}
+                                    />
+                                ) : (
+                                    <Box
+                                        sx={{
+                                            width: '100%',
+                                            height: '100%',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        <Box
+                                            sx={{
+                                                width: '30%',
+                                                height: '30%',
+                                                backgroundColor: placeholderColors[index % placeholderColors.length],
+                                                borderRadius: '2px',
+                                                opacity: 1,
+                                            }}
+                                            title={`${card.title} - ${card.tags.join(', ')}`}
+                                        />
+                                    </Box>
+                                )}
+                            </motion.div>
+                        ))}
+                </Box>
+            )}
         </Box>
     );
 }

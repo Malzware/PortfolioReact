@@ -9,59 +9,28 @@ const getOverlayColorByTag = (tags) => {
     const mainTag = tags[0]?.toLowerCase();
     switch (mainTag) {
         case 'games':
-            return 'rgba(21, 230, 38, 0.9)'; // #15E626
+            return '#052843';
         case 'web-development':
-            return 'rgba(230, 21, 94, 0.9)'; // #E6155E
+            return '#F9CB2E';
         case 'scripts':
-            return 'rgba(230, 170, 21, 0.9)'; // #E6AA15
+            return '#A66455';
         default:
-            return 'rgba(0, 0, 0, 0.7)'; // fallback
+            return 'rgba(0, 0, 0, 0.7)';
     }
 };
 
-export default function CustomCard({ image, title, tags = [], bubbleText, description, size }) {
+export default function CustomCard({ image, title, tags = [], bubbleText, description, size, link }) {
     const [hover, setHover] = React.useState(false);
-    const [animatedText, setAnimatedText] = React.useState('');
 
-    React.useEffect(() => {
-        if (!hover) {
-            setAnimatedText('');
-            return;
-        }
-
-        const chars = '!<>-_\\/[]{}—=+*^?#________';
-        const fullText = description || '';
-        const scrambleIterations = 10;
-        let currentIteration = 0;
-
-        const scramble = () => {
-            if (currentIteration < scrambleIterations) {
-                let scrambled = '';
-                for (let i = 0; i < fullText.length; i++) {
-                    scrambled += chars[Math.floor(Math.random() * chars.length)];
-                }
-                setAnimatedText(scrambled);
-                currentIteration++;
-            } else {
-                setAnimatedText(fullText);
-                clearInterval(interval);
-            }
-        };
-
-        const interval = setInterval(scramble, 40);
-        return () => clearInterval(interval);
-    }, [hover, description]);
-
-    // Déterminer la taille de police selon la taille de la carte
     const getTitleFontSize = () => {
         switch (size) {
             case 'large':
-                return 'h5';
-            case 'medium':
                 return 'h6';
+            case 'medium':
+                return 'subtitle1';
             case 'small':
             default:
-                return 'body1';
+                return 'body2';
         }
     };
 
@@ -77,6 +46,14 @@ export default function CustomCard({ image, title, tags = [], bubbleText, descri
         }
     };
 
+    const handleClick = () => {
+        if (link) {
+            window.open(link, '_blank', 'noopener,noreferrer');
+        }
+    };
+
+    const tagColor = getOverlayColorByTag(tags);
+
     return (
         <Card
             sx={{
@@ -84,20 +61,20 @@ export default function CustomCard({ image, title, tags = [], bubbleText, descri
                 height: '100%',
                 position: 'relative',
                 overflow: 'hidden',
-                cursor: 'pointer',
+                cursor: link ? `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:12px;'><text y='50%'>View</text></svg>") 16 0, pointer` : 'default',
                 display: 'flex',
                 flexDirection: 'column',
-                borderRadius: 0, // AJOUTÉ : Supprime les bords arrondis
-                transition: 'box-shadow 0.2s ease', // SUPPRIMÉ : transform de la transition
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)', // Ombre légère par défaut
+                borderRadius: 0,
+                transition: 'box-shadow 0.2s ease',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
                 '&:hover': {
-                    // SUPPRIMÉ : transform: 'scale(1.03)'
                     boxShadow: '0 12px 40px rgba(0, 0, 0, 0.25)',
                     zIndex: 10,
                 }
             }}
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
+            onClick={handleClick}
         >
             <CardContent sx={{ p: 0, flexGrow: 1, position: 'relative', zIndex: 1 }}>
                 <img
@@ -112,14 +89,12 @@ export default function CustomCard({ image, title, tags = [], bubbleText, descri
                 />
             </CardContent>
 
-            {/* Overlay avec gradient */}
+            {/* Overlay */}
             <Box
                 sx={{
                     position: 'absolute',
                     top: 0, left: 0, right: 0, bottom: 0,
-                    background: hover
-                        ? getOverlayColorByTag(tags)
-                        : 'transparent',
+                    background: hover ? tagColor : 'transparent',
                     opacity: hover ? 1 : 0,
                     transition: 'opacity 0.4s ease',
                     zIndex: 2,
@@ -127,93 +102,79 @@ export default function CustomCard({ image, title, tags = [], bubbleText, descri
                 }}
             />
 
-            {/* Titre centré */}
+            {/* Ligne avec carré de couleur et texte */}
             <Box
                 sx={{
                     position: 'absolute',
-                    top: 0, left: 0, right: 0, bottom: 0,
+                    top: 12,
+                    left: 12,
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center',
-                    zIndex: 3,
+                    padding: size === 'large' ? '6px 12px' : '4px 8px',
+                    borderRadius: '6px',
+                    fontSize: getBubbleFontSize(),
+                    fontWeight: 600,
+                    zIndex: 4,
+                    opacity: hover ? 0 : 1,
+                    transition: 'opacity 0.3s ease',
+                }}
+            >
+                <Box
+                    sx={{
+                        width: '12px',
+                        height: '12px',
+                        borderRadius: '2px',
+                        backgroundColor: tagColor,
+                        marginRight: '8px',
+                    }}
+                />
+                <Typography
+                    variant="caption"
+                    color="textPrimary"
+                    sx={{ fontWeight: 600, fontSize: 'inherit' }}
+                >
+                    {bubbleText}
+                </Typography>
+            </Box>
+
+
+
+            {/* Titre + description */}
+            <Box
+                sx={{
+                    position: 'absolute',
+                    bottom: 12,
+                    left: 12,
+                    right: 12,
+                    zIndex: 4,
+                    textAlign: 'left',
                     opacity: hover ? 1 : 0,
-                    transition: 'opacity 0.4s ease',
-                    pointerEvents: 'none',
                     transform: hover ? 'translateY(0)' : 'translateY(20px)',
+                    transition: 'opacity 0.4s ease, transform 0.4s ease',
                 }}
             >
                 <Typography
                     variant={getTitleFontSize()}
                     color="white"
                     sx={{
-                        textAlign: 'center',
-                        px: 2,
                         fontWeight: 'bold',
-                        textShadow: '0 2px 4px rgba(0,0,0,0.5)'
+                        mb: 0.5,
+                        textShadow: '0 1px 3px rgba(0,0,0,0.5)',
                     }}
                 >
                     {title}
                 </Typography>
-            </Box>
-
-            {/* Bulle texte */}
-            <Box
-                sx={{
-                    position: 'absolute',
-                    top: 12,
-                    left: 12,
-                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                    color: 'black',
-                    padding: size === 'large' ? '6px 12px' : '4px 8px',
-                    borderRadius: '16px',
-                    fontSize: getBubbleFontSize(),
-                    fontWeight: 600,
-                    zIndex: 4,
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-                    backdropFilter: 'blur(4px)',
-                }}
-            >
                 <Typography
-                    variant="caption"
-                    color="textPrimary"
+                    variant="body2"
+                    color="white"
                     sx={{
-                        fontWeight: 600,
-                        fontSize: 'inherit'
+                        lineHeight: 1.3,
+                        textShadow: '0 1px 2px rgba(0,0,0,0.4)',
                     }}
                 >
-                    {bubbleText}
+                    {description}
                 </Typography>
             </Box>
-
-            {/* Description animée */}
-            {hover && (
-                <Box
-                    sx={{
-                        position: 'absolute',
-                        bottom: 12,
-                        left: 12,
-                        right: 12,
-                        padding: size === 'large' ? '8px 16px' : '6px 12px',
-                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                        borderRadius: '8px',
-                        fontSize: size === 'large' ? '0.9rem' : '0.8rem',
-                        zIndex: 4,
-                        textAlign: 'center',
-                        backdropFilter: 'blur(4px)',
-                    }}
-                >
-                    <Typography
-                        variant="body2"
-                        color="white"
-                        sx={{
-                            fontSize: 'inherit',
-                            lineHeight: 1.3
-                        }}
-                    >
-                        {animatedText}
-                    </Typography>
-                </Box>
-            )}
         </Card>
     );
 }

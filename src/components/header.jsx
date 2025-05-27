@@ -15,26 +15,32 @@ export default function Header({ darkMode, toggleTheme }) {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar 
-        position="static"
+      <AppBar
+        position="fixed" // Changé en fixed pour rester au-dessus
         sx={{
           backgroundColor: 'transparent',
           boxShadow: 'none',
-          color: 'text.primary'
+          color: 'text.primary',
+          backgroundImage: 'none',
+          zIndex: 1100, // Z-index élevé pour rester au-dessus des transitions
+          backdropFilter: 'blur(10px)', // Effet de flou pour un rendu moderne
         }}
       >
         <Toolbar>
-          <Typography 
-            variant="h6" 
-            component="div" 
-            sx={{ 
+          <Typography
+            variant="h6"
+            component="a"
+            href="/"
+            sx={{
               flexGrow: 1,
-              fontWeight: 'bold'
+              fontWeight: 'bold',
+              textDecoration: 'none',
+              color: 'inherit',
+              cursor: 'pointer'
             }}
           >
             =)
           </Typography>
-
           <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
             <Button
               color="inherit"
@@ -46,18 +52,10 @@ export default function Header({ darkMode, toggleTheme }) {
             <Button
               color="inherit"
               sx={{ textTransform: 'none', fontSize: '1rem', fontWeight: 'bold' }}
-              onClick={() => navigate('/about')}
-            >
-              About
-            </Button>
-            <Button
-              color="inherit"
-              sx={{ textTransform: 'none', fontSize: '1rem', fontWeight: 'bold' }}
               onClick={() => navigate('/contact')}
             >
               Contact
             </Button>
-
             <IconButton onClick={toggleTheme}>
               <Box
                 sx={{
@@ -73,6 +71,8 @@ export default function Header({ darkMode, toggleTheme }) {
           </Box>
         </Toolbar>
       </AppBar>
+      {/* Spacer pour compenser le header fixe */}
+      <Toolbar />
     </Box>
   )
 }

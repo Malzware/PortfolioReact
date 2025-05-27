@@ -1,9 +1,10 @@
-// App.jsx
+import React, { useState, useEffect, useRef } from 'react'
 import './App.css'
 import CardGrid from './pages/cardGrid.jsx'
 import Contact from './pages/contact.jsx'
 import Header from './components/header.jsx'
-
+import SlidePageTransition from './components/pageTransition.jsx'
+import WelcomeLoader from './components/welcomeLoader.jsx'
 import {
   GlobalStyles,
   Container,
@@ -11,12 +12,77 @@ import {
   CssBaseline,
   createTheme
 } from '@mui/material'
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
+import { AnimatePresence } from 'framer-motion'
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { useState } from 'react'
+function AnimatedRoutes({ darkMode, toggleTheme, showLoader, setShowLoader, hasVisitedHome }) {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === '/' && !hasVisitedHome.current) {
+      setShowLoader(true);
+      hasVisitedHome.current = true;
+    }
+  }, [location.pathname, hasVisitedHome, setShowLoader]);
+
+  return (
+    <>
+      {!showLoader && <Header darkMode={darkMode} toggleTheme={toggleTheme} />}
+      
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route
+            path="/"
+            element={
+              <SlidePageTransition>
+                <Container 
+                  maxWidth={false} 
+                  sx={{ 
+                    py: 2, 
+                    px: 0,
+                    '@media (min-width: 600px)': {
+                      px: '14px'
+                    }
+                  }}
+                >
+                  <CardGrid />
+                </Container>
+              </SlidePageTransition>
+            }
+          />
+          <Route
+            path="/contact"
+            element={
+              <SlidePageTransition>
+                <Container 
+                  maxWidth={false} 
+                  sx={{ 
+                    py: 2, 
+                    px: 0,
+                    '@media (min-width: 600px)': {
+                      px: '14px'
+                    }
+                  }}
+                >
+                  <Contact />
+                </Container>
+              </SlidePageTransition>
+            }
+          />
+        </Routes>
+      </AnimatePresence>
+    </>
+  );
+}
 
 function App() {
-  const [darkMode, setDarkMode] = useState(false)
+  const [darkMode, setDarkMode] = useState(() => {
+    const storedTheme = localStorage.getItem('darkMode');
+    return storedTheme === null ? true : storedTheme === 'true';
+  });
+
+  const [showLoader, setShowLoader] = useState(false);
+  const hasVisitedHome = useRef(false);
 
   const theme = createTheme({
     palette: {
@@ -25,25 +91,90 @@ function App() {
         default: darkMode ? '#121212' : '#f5f5f5',
       },
     },
-  })
+    typography: {
+      fontFamily: 'Inter, sans-serif',
+      h1: {
+        fontFamily: 'Outfit, sans-serif',
+        fontSize: '3rem',
+        fontWeight: 700,
+      },
+      h2: {
+        fontFamily: 'Outfit, sans-serif',
+        fontSize: '2.5rem',
+        fontWeight: 600,
+      },
+      h3: {
+        fontFamily: 'Outfit, sans-serif',
+        fontSize: '2rem',
+        fontWeight: 600,
+      },
+      h4: {
+        fontFamily: 'Outfit, sans-serif',
+        fontSize: '1.5rem',
+        fontWeight: 500,
+      },
+      h5: {
+        fontFamily: 'Outfit, sans-serif',
+        fontSize: '1.25rem',
+        fontWeight: 500,
+      },
+      h6: {
+        fontFamily: 'Outfit, sans-serif',
+        fontSize: '1rem',
+        fontWeight: 500,
+      },
+      body1: {
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '1rem',
+      },
+      body2: {
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '0.875rem',
+      },
+    },
+  });
 
-  const toggleTheme = () => setDarkMode(!darkMode)
+  const toggleTheme = () => setDarkMode(!darkMode);
+
+  useEffect(() => {
+    localStorage.setItem('darkMode', darkMode);
+  }, [darkMode]);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
+  }, [darkMode]);
+
+  const handleLoaderComplete = () => {
+    setShowLoader(false);
+  };
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-
       <GlobalStyles
         styles={{
           html: {
-            overflowY: 'scroll !important', // Force la scrollbar à être toujours visible
+            scrollbarWidth: 'none',
+            overflowY: 'scroll',
+            backgroundColor: theme.palette.background.default,
+            fontFamily: 'Inter, sans-serif',
           },
+          body: {
+            backgroundColor: theme.palette.background.default,
+            color: theme.palette.text.primary,
+            fontFamily: 'Inter, sans-serif',
+            '&::-webkit-scrollbar': {
+              display: 'none',
+            },
+          },
+          h1: { fontFamily: 'Outfit, sans-serif' },
+          h2: { fontFamily: 'Outfit, sans-serif' },
+          h3: { fontFamily: 'Outfit, sans-serif' },
+          h4: { fontFamily: 'Outfit, sans-serif' },
+          h5: { fontFamily: 'Outfit, sans-serif' },
+          h6: { fontFamily: 'Outfit, sans-serif' },
           '.MuiCardContent-root:last-child': {
             paddingBottom: '0 !important',
-          },
-          '.MuiContainer-root': {
-            paddingLeft: '0 !important',
-            paddingRight: '0 !important',
           },
           '#root': {
             margin: '0 !important',
@@ -52,27 +183,47 @@ function App() {
             textAlign: 'inherit',
             width: '100%',
           },
-          '.css-ucqtrl-MuiPaper-root-MuiCard-root': {
-            borderRadius: '0 !important',
+          'a.MuiTypography-root': {
+            textDecoration: 'none',
+            color: 'inherit',
+            '&:hover': {
+              textDecoration: 'none',
+              color: 'inherit',
+              backgroundColor: 'transparent',
+            },
           },
-          '.css-m1b3wi-MuiPaper-root-MuiAppBar-root': {
-            backgroundImage: 'none !important'
-          }
+          '.MuiButton-root': {
+            '&:hover': {
+              backgroundColor: 'transparent',
+              color: 'inherit',
+              textDecoration: 'none',
+            },
+          },
+          '@media (min-width:600px)': {
+            '.MuiContainer-root': {
+              paddingLeft: theme.spacing(2),
+              paddingRight: theme.spacing(2),
+            },
+          },
         }}
       />
 
-      <Router>
-        <Header darkMode={darkMode} toggleTheme={toggleTheme} />
+      <WelcomeLoader
+        isVisible={showLoader}
+        onComplete={handleLoaderComplete}
+      />
 
-        <Container maxWidth={false} sx={{ py: 4, px: 0 }}>
-          <Routes>
-            <Route path="/" element={<CardGrid />} />
-            <Route path="/contact" element={<Contact />} />
-          </Routes>
-        </Container>
+      <Router>
+        <AnimatedRoutes
+          darkMode={darkMode}
+          toggleTheme={toggleTheme}
+          showLoader={showLoader}
+          setShowLoader={setShowLoader}
+          hasVisitedHome={hasVisitedHome}
+        />
       </Router>
     </ThemeProvider>
-  )
+  );
 }
 
-export default App
+export default App;
