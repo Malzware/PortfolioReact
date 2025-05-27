@@ -10,107 +10,103 @@ const cardData = [
         image: '/src/assets/img/unity1.png',
         title: 'Projet Unity 3D',
         tags: ['GAMES'],
-        description: 'Un jeu 3D développé avec Unity.',
+        description: 'Imagination et développement de lieu de vie en 2050, en fonction du scénario en VR, via Unity.',
         bubbleText: 'Unity 3D',
-        size: 'medium',
+        size: 'large',
         gridColumn: 1,
         gridRow: 1,
         width: 1, // largeur en unités de grille
         height: 2, // hauteur en unités de grille
-        link: 'https://github.com/user/unity-project' // Exemple de lien
     },
     {
         id: 2,
         image: '/src/assets/img/unity1.png',
         title: 'Portfolio React',
         tags: ['Web-Development'],
-        description: 'Un site web moderne réalisé avec React.',
+        description: 'Portfolio développé via React + Vite.',
         bubbleText: 'React',
         size: 'large',
         gridColumn: 3,
         gridRow: 1,
         width: 1, // carte plus large
         height: 3, // hauteur en unités de grille
-        link: 'https://github.com/user/react-site' // Exemple de lien
+        link: 'https://github.com/Malzware/PortfolioReact' // Exemple de lien
     },
     {
         id: 3,
         image: '/src/assets/img/unity1.png',
-        title: 'Scripts Python',
+        title: 'Scripts NodeJS',
         tags: ['SCRIPTS'],
-        description: 'Automatisation avec des scripts Python.',
-        bubbleText: 'Python',
-        size: 'small',
+        description: 'Automatisation de processus via NodeJS dans le cadre de mon stage dans l\'entreprise Cyclovis',
+        bubbleText: 'Node JS',
+        size: 'large',
         gridColumn: 1,
         gridRow: 3,
         width: 1,
         height: 1,
-        link: 'https://github.com/user/python-scripts' // Exemple de lien
     },
     {
         id: 4,
         image: '/src/assets/img/unity1.png',
         title: 'App Mobile',
-        tags: ['GAMES'],
-        description: 'Une application mobile native.',
+        tags: ['Web-Development'],
+        description: 'Portage d\'une application web Angular à destination d\'Androïd.',
         bubbleText: 'Mobile',
-        size: 'medium',
+        size: 'large',
         gridColumn: 2,
         gridRow: 2,
         width: 1,
         height: 2,
-        // Pas de lien pour cette carte
+        link: 'https://github.com/Malzware/PokedexMarillAndroid' // Exemple de lien
     },
     {
         id: 5,
         image: '/src/assets/img/unity1.png',
-        title: 'Développement Web',
+        title: 'Déploiement d\'une nouvelle interface web',
         tags: ['Web-Development'],
-        description: 'Conception de base de données complexe.',
-        bubbleText: 'Database',
-        size: 'small',
+        description: 'Déploiement d\'une nouvelle interface web pour le site de la marque Autoradio-GPS.',
+        bubbleText: 'Front Dev',
+        size: 'large',
         gridColumn: 1,
         gridRow: 4,
         width: 1,
         height: 1,
-        link: 'https://github.com/user/database-project' // Exemple de lien
+        link: 'https://www.autoradios-gps.com/'
     },
     {
         id: 6,
         image: '/src/assets/img/unity1.png',
-        title: 'Développement Web',
+        title: 'Texte',
         tags: ['SCRIPTS'],
-        description: 'Conception de base de données complexe.',
-        bubbleText: 'Développement Web',
+        description: 'Texte',
+        bubbleText: 'Texte',
         size: 'large',
         gridColumn: 2,
         gridRow: 4,
         width: 2, // carte plus large
         height: 2,
-        link: 'https://mywebsite.com' // Exemple de lien
     },
     {
         id: 7,
         image: '/src/assets/img/unity1.png',
-        title: 'API REST',
+        title: 'Texte',
         tags: ['Web-Development'],
-        description: 'Développement d\'APIs REST robustes.',
-        bubbleText: 'API',
-        size: 'small',
+        description: 'Texte',
+        bubbleText: 'Texte',
+        size: 'large',
         gridColumn: 4,
         gridRow: 2,
         width: 1,
         height: 1,
-        link: 'https://github.com/user/api-rest' // Exemple de lien
     },
     {
         id: 8,
         image: '/src/assets/img/unity1.png',
-        title: 'DevOps',
+        title: 'Texte',
         tags: ['SCRIPTS'],
-        description: 'Automatisation et déploiement continu.',
-        bubbleText: 'DevOps',
-        size: 'small',
+        description: 'Texte',
+        bubbleText: 'Texte',
+        size: 'large',
         gridColumn: 4,
         gridRow: 3,
         width: 1,
@@ -120,16 +116,15 @@ const cardData = [
     {
         id: 9,
         image: '/src/assets/img/unity1.png',
-        title: 'Design System',
+        title: 'Texte',
         tags: ['Web-Development'],
-        description: 'Création de systèmes de design cohérents.',
-        bubbleText: 'Design',
-        size: 'medium',
+        description: 'Texte',
+        bubbleText: 'Texte',
+        size: 'large',
         gridColumn: 4,
         gridRow: 4,
         width: 1,
         height: 2,
-        link: 'https://design-system.example.com' // Exemple de lien
     },
 ];
 
@@ -165,6 +160,13 @@ export default function CardGrid() {
         '#B79D99', '#523C25', '#ABB194', '#45353C'
     ];
 
+    // ✅ Couleurs spécifiques pour chaque catégorie
+    const tagColors = {
+        'GAMES': '#F9CB2E',
+        'Web-Development': '#9EC1BF',
+        'SCRIPTS': '#A66455'
+    };
+
     const getGridDimensions = (card) => {
         return {
             gridColumn: `${card.gridColumn} / span ${card.width}`,
@@ -183,6 +185,9 @@ export default function CardGrid() {
         textTransform: 'uppercase',
         letterSpacing: '0.5px',
         border: '1px solid transparent',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 1,
 
         // ✅ Couleurs selon le thème et l'état
         ...(isDarkMode ? {
@@ -236,6 +241,17 @@ export default function CardGrid() {
                             onClick={() => setSelectedTag(tag)}
                             sx={getButtonStyles(selectedTag === tag)}
                         >
+                            {/* ✅ Carré de couleur à gauche du texte */}
+                            <Box
+                                sx={{
+                                    width: '12px',
+                                    height: '12px',
+                                    backgroundColor: tagColors[tag],
+                                    borderRadius: '2px',
+                                    opacity: selectedTag === tag ? 1 : 0.7,
+                                    transition: 'opacity 0.3s ease',
+                                }}
+                            />
                             [{tag}]
                         </Box>
                     ))}
@@ -278,7 +294,7 @@ export default function CardGrid() {
                                 tags={card.tags}
                                 description={card.description}
                                 bubbleText={card.bubbleText}
-                                size="medium" // Taille uniforme sur mobile
+                                size="large" // Taille uniforme sur mobile
                                 link={card.link}
                             />
                         </motion.div>

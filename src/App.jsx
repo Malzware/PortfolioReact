@@ -1,10 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react'
-import './App.css'
-import CardGrid from './pages/cardGrid.jsx'
-import Contact from './pages/contact.jsx'
-import Header from './components/header.jsx'
-import SlidePageTransition from './components/pageTransition.jsx'
-import WelcomeLoader from './components/welcomeLoader.jsx'
 import {
   GlobalStyles,
   Container,
@@ -14,6 +8,14 @@ import {
 } from '@mui/material'
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
+
+import './App.css'
+import CardGrid from './pages/cardGrid.jsx'
+import Contact from './pages/contact.jsx'
+import Header from './components/header.jsx'
+import SlidePageTransition from './components/pageTransition.jsx'
+import WelcomeLoader from './components/welcomeLoader.jsx'
+import About from './pages/about.jsx'
 
 function AnimatedRoutes({ darkMode, toggleTheme, showLoader, setShowLoader, hasVisitedHome }) {
   const location = useLocation();
@@ -28,17 +30,17 @@ function AnimatedRoutes({ darkMode, toggleTheme, showLoader, setShowLoader, hasV
   return (
     <>
       {!showLoader && <Header darkMode={darkMode} toggleTheme={toggleTheme} />}
-      
+
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route
             path="/"
             element={
               <SlidePageTransition>
-                <Container 
-                  maxWidth={false} 
-                  sx={{ 
-                    py: 2, 
+                <Container
+                  maxWidth={false}
+                  sx={{
+                    py: 2,
                     px: 0,
                     '@media (min-width: 600px)': {
                       px: '14px'
@@ -51,13 +53,21 @@ function AnimatedRoutes({ darkMode, toggleTheme, showLoader, setShowLoader, hasV
             }
           />
           <Route
+            path="/about"
+            element={
+              <SlidePageTransition>
+                <About />
+              </SlidePageTransition>
+            }
+          />
+          <Route
             path="/contact"
             element={
               <SlidePageTransition>
-                <Container 
-                  maxWidth={false} 
-                  sx={{ 
-                    py: 2, 
+                <Container
+                  maxWidth={false}
+                  sx={{
+                    py: 2,
                     px: 0,
                     '@media (min-width: 600px)': {
                       px: '14px'
@@ -95,7 +105,7 @@ function App() {
       fontFamily: 'Inter, sans-serif',
       h1: {
         fontFamily: 'Outfit, sans-serif',
-        fontSize: '3rem',
+        fontSize: '100px',
         fontWeight: 700,
       },
       h2: {
@@ -153,6 +163,11 @@ function App() {
       <CssBaseline />
       <GlobalStyles
         styles={{
+          'html, body, #root': {
+            height: '100%',
+            margin: 0,
+            padding: 0,
+          },
           html: {
             scrollbarWidth: 'none',
             overflowY: 'scroll',
@@ -163,7 +178,7 @@ function App() {
             backgroundColor: theme.palette.background.default,
             color: theme.palette.text.primary,
             fontFamily: 'Inter, sans-serif',
-            '&::-webkit-scrollbar': {
+            '&::WebkitScrollbar?': {
               display: 'none',
             },
           },

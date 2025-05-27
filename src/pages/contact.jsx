@@ -8,22 +8,22 @@ export default function Contact() {
     title: false,
     mail: false,
     discord: false,
-    linkedin: false
+    linkedin: false,
+    cv: false
   })
 
   useEffect(() => {
-    // Animation de l'image
     const imageTimer = setTimeout(() => {
       setImageVisible(true)
     }, 200)
 
-    // Animation des lignes de texte avec délais progressifs
     const textTimers = [
       setTimeout(() => setTextLines(prev => ({ ...prev, name: true })), 600),
       setTimeout(() => setTextLines(prev => ({ ...prev, title: true })), 900),
       setTimeout(() => setTextLines(prev => ({ ...prev, mail: true })), 1200),
       setTimeout(() => setTextLines(prev => ({ ...prev, discord: true })), 1400),
-      setTimeout(() => setTextLines(prev => ({ ...prev, linkedin: true })), 1600)
+      setTimeout(() => setTextLines(prev => ({ ...prev, linkedin: true })), 1600),
+      setTimeout(() => setTextLines(prev => ({ ...prev, cv: true })), 1800)
     ]
 
     return () => {
@@ -68,7 +68,6 @@ export default function Contact() {
                 <br></br>
                 Web Developper
               </strong>
-
             </Typography>
 
             <Typography
@@ -82,30 +81,30 @@ export default function Contact() {
               }}
             >
               <strong>
-                EXPERIENCE : 
+                EXPERIENCE :
                 <br></br>
                 Intern Web Developper - SAS Cyclovis
                 <br></br>
-                Student BUT MMI - Université de Montpellier
+                Student BUT MMI Web Development - Université de Montpellier
               </strong>
             </Typography>
 
             <Box sx={{ pr: 4 }}>
-                          <Typography
-              variant="p"
-              align="left"
-              sx={{
-                pr: 4,
-                transform: textLines.name ? 'translateY(0)' : 'translateY(50px)',
-                opacity: textLines.name ? 1 : 0,
-                transition: 'transform 0.6s ease-out, opacity 0.6s ease-out'
-              }}
-            >
-              <strong>
-                CONTACT :
-              </strong>
-
-            </Typography>
+              <Typography
+                variant="p"
+                align="left"
+                sx={{
+                  pr: 4,
+                  transform: textLines.name ? 'translateY(0)' : 'translateY(50px)',
+                  opacity: textLines.name ? 1 : 0,
+                  transition: 'transform 0.6s ease-out, opacity 0.6s ease-out'
+                }}
+              >
+                <strong>
+                  CONTACT :
+                </strong>
+              </Typography>
+              
               <Typography
                 variant="p"
                 component="a"
@@ -159,6 +158,25 @@ export default function Contact() {
                 }}
               >
                 LinkedIn
+              </Typography>
+              
+              <Typography
+                variant="p"
+                component="a"
+                href="/assets/cv.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{
+                  cursor: 'pointer',
+                  color: 'white',
+                  textDecoration: 'none',
+                  display: 'block',
+                  transform: textLines.cv ? 'translateY(0)' : 'translateY(30px)',
+                  opacity: textLines.cv ? 1 : 0,
+                  transition: 'transform 0.5s ease-out, opacity 0.5s ease-out'
+                }}
+              >
+                CV
               </Typography>
             </Box>
           </Box>

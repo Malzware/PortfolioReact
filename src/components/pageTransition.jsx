@@ -108,7 +108,7 @@ const SlidePageTransition = ({ children }) => {
           // Additional wrapper to ensure proper scrolling
           minHeight: 'calc(100vh - 64px)',
           // Hide webkit scrollbar
-          '&::-webkit-scrollbar': {
+          '&::WebkitScrollbar?': {
             display: 'none',
           },
         }}>
