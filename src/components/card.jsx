@@ -5,18 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-const tagColors = {
-    'GAMES': '#00FF30',
-    'WEB-DEVELOPMENT': '#FF5100',
-    'SCRIPTS': '#DEFF00',
-    'UI/UX': '#FF36C9',
-};
-
-const getOverlayColorByTag = (tags) => {
-    if (!tags.length) return 'rgba(0,0,0,0.7)';
-    const mainTag = tags[0].toUpperCase();
-    return tagColors[mainTag] || 'rgba(0, 0, 0, 0.7)';
-};
+const getOverlayColorByTag = () => '#FF36C9';
 
 export default function CustomCard({ image, title, tags = [], bubbleText, description, size, link }) {
     const [hover, setHover] = React.useState(false);
@@ -55,12 +44,15 @@ export default function CustomCard({ image, title, tags = [], bubbleText, descri
 
     return (
         <Card
+            // Attribut data pour le curseur personnalisé
+            data-has-link={link ? "true" : "false"}
             sx={{
                 width: '100%',
                 height: '100%',
                 position: 'relative',
                 overflow: 'hidden',
-                cursor: link ? `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:12px;'><text y='50%'>View</text></svg>") 16 0, pointer` : 'default',
+                // Curseur masqué quand il y a un lien (remplacé par le curseur custom)
+                cursor: link ? 'none' : 'default',
                 display: 'flex',
                 flexDirection: 'column',
                 borderRadius: 0,
@@ -101,42 +93,28 @@ export default function CustomCard({ image, title, tags = [], bubbleText, descri
                 }}
             />
 
-            {/* Ligne avec carré de couleur et texte */}
+            {/* Bubble Text (visible seulement au hover, fond rose, sans carré) */}
             <Box
                 sx={{
                     position: 'absolute',
                     top: 12,
                     left: 12,
-                    display: 'flex',
+                    display: hover ? 'flex' : 'none',
                     alignItems: 'center',
-                    padding: size === 'large' ? '6px 12px' : '4px 8px',
                     borderRadius: '6px',
                     fontSize: getBubbleFontSize(),
                     fontWeight: 600,
                     zIndex: 4,
-                    opacity: hover ? 0 : 1,
-                    transition: 'opacity 0.3s ease',
                 }}
             >
-                <Box
-                    sx={{
-                        width: '12px',
-                        height: '12px',
-                        borderRadius: '2px',
-                        backgroundColor: tagColor,
-                        marginRight: '8px',
-                    }}
-                />
                 <Typography
                     variant="caption"
-                    color="textPrimary"
+                    color="white"
                     sx={{ fontWeight: 600, fontSize: 'inherit' }}
                 >
                     {bubbleText}
                 </Typography>
             </Box>
-
-
 
             {/* Titre + description */}
             <Box

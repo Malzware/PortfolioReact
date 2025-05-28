@@ -14,27 +14,34 @@ import CardGrid from './pages/cardGrid.jsx'
 import Contact from './pages/contact.jsx'
 import Header from './components/header.jsx'
 import SlidePageTransition from './components/pageTransition.jsx'
-import WelcomeLoader from './components/welcomeLoader.jsx'
 import About from './pages/about.jsx'
+import Home from './pages/index.jsx';
 
-function AnimatedRoutes({ darkMode, toggleTheme, showLoader, setShowLoader, hasVisitedHome }) {
+function AnimatedRoutes({ darkMode, toggleTheme, hasVisitedHome }) {
   const location = useLocation();
 
   useEffect(() => {
     if (location.pathname === '/' && !hasVisitedHome.current) {
-      setShowLoader(true);
       hasVisitedHome.current = true;
     }
-  }, [location.pathname, hasVisitedHome, setShowLoader]);
+  }, [location.pathname, hasVisitedHome]);
 
   return (
     <>
-      {!showLoader && <Header darkMode={darkMode} toggleTheme={toggleTheme} />}
+      {<Header darkMode={darkMode} toggleTheme={toggleTheme} />}
 
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route
             path="/"
+            element={
+              <SlidePageTransition>
+                <Home />
+              </SlidePageTransition>
+            }
+          />
+          <Route
+            path="/work"
             element={
               <SlidePageTransition>
                 <Container
@@ -91,7 +98,6 @@ function App() {
     return storedTheme === null ? true : storedTheme === 'true';
   });
 
-  const [showLoader, setShowLoader] = useState(false);
   const hasVisitedHome = useRef(false);
 
   const theme = createTheme({
@@ -153,10 +159,6 @@ function App() {
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
   }, [darkMode]);
-
-  const handleLoaderComplete = () => {
-    setShowLoader(false);
-  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -223,17 +225,10 @@ function App() {
         }}
       />
 
-      <WelcomeLoader
-        isVisible={showLoader}
-        onComplete={handleLoaderComplete}
-      />
-
       <Router>
         <AnimatedRoutes
           darkMode={darkMode}
           toggleTheme={toggleTheme}
-          showLoader={showLoader}
-          setShowLoader={setShowLoader}
           hasVisitedHome={hasVisitedHome}
         />
       </Router>

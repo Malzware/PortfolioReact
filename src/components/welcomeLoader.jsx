@@ -1,4 +1,3 @@
-// components/WelcomeLoader.jsx
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, useTheme } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -7,17 +6,16 @@ const WelcomeLoader = ({ isVisible, onComplete }) => {
     const theme = useTheme();
     const [progress, setProgress] = useState(0);
 
-    // Animation du pourcentage de 0% à 100%
     useEffect(() => {
         if (isVisible) {
             const interval = setInterval(() => {
                 setProgress(prev => {
                     if (prev >= 100) {
                         clearInterval(interval);
-                        setTimeout(onComplete, 300); // Petit délai avant fermeture
+                        setTimeout(onComplete, 300); 
                         return 100;
                     }
-                    return prev + 2; // Augmente de 2% toutes les 50ms
+                    return prev + 2; 
                 });
             }, 50);
 
@@ -70,7 +68,7 @@ const WelcomeLoader = ({ isVisible, onComplete }) => {
                                     mb: 2,
                                     fontSize: { xs: '2rem', md: '3rem' },
                                     letterSpacing: '2px',
-                                    color: theme.palette.text.primary, // Adapté au thème
+                                    color: theme.palette.text.primary, 
                                 }}
                             >
                                 VICTOR, STUDENT DEVELOPPER. <br></br>
@@ -86,3 +84,8 @@ const WelcomeLoader = ({ isVisible, onComplete }) => {
 };
 
 export default WelcomeLoader;
+
+
+
+
+

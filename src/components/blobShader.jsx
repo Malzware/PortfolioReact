@@ -23,26 +23,15 @@ const fragmentShader = `
   uniform float time;
   varying vec2 vUv;
   void main() {
-    // Couleur dégradée animée plus sophistiquée
-    vec2 center = vec2(0.5, 0.5);
-    float dist = distance(vUv, center);
-    // Couleurs qui changent avec le temps
-    vec3 color1 = vec3(0.2, 0.6, 1.0); // Bleu
-    vec3 color2 = vec3(1.0, 0.4, 0.8); // Rose
-    vec3 color3 = vec3(0.3, 1.0, 0.5); // Vert
-    // Mélange des couleurs basé sur la position et le temps
-    float t1 = sin(time * 0.5 + dist * 10.0) * 0.5 + 0.5;
-    float t2 = cos(time * 0.7 + vUv.x * 5.0) * 0.5 + 0.5;
-    vec3 finalColor = mix(mix(color1, color2, t1), color3, t2);
-    gl_FragColor = vec4(finalColor, 1.0);
+    float pulse = sin(time * 2.0 + vUv.x * 10.0) * 0.05 + 0.95;
+    vec3 pink = vec3(1.0, 0.2 * pulse, 0.6 * pulse); // Rose animé
+    gl_FragColor = vec4(pink, 1.0);
   }
 `;
 
-const BlobShader = ({ disableClick = false, scale = 1.5 }) => {
+const BlobShader = ({ onClick, disableClick = false, disableCursorChange = false, scale = 1.5 }) => {
   const mesh = useRef();
-  const uniforms = useRef({
-    time: { value: 0 }
-  });
+  const uniforms = useRef({ time: { value: 0 } });
 
   useFrame(({ clock }) => {
     uniforms.current.time.value = clock.getElapsedTime();
@@ -53,18 +42,18 @@ const BlobShader = ({ disableClick = false, scale = 1.5 }) => {
       e.stopPropagation();
       return;
     }
-    // Vous pouvez modifier cette action selon vos besoins
-    window.open('/assets/cv.pdf', '_blank');
+    e.stopPropagation();
+    if (onClick) onClick(e);
   };
 
   const handlePointerOver = (e) => {
-    if (disableClick) return;
+    if (disableClick || disableCursorChange) return;
     e.stopPropagation();
     document.body.style.cursor = 'pointer';
   };
 
   const handlePointerOut = (e) => {
-    if (disableClick) return;
+    if (disableClick || disableCursorChange) return;
     e.stopPropagation();
     document.body.style.cursor = 'auto';
   };
@@ -73,7 +62,7 @@ const BlobShader = ({ disableClick = false, scale = 1.5 }) => {
     <mesh
       ref={mesh}
       scale={scale}
-      onClick={handleClick}
+      onClick={disableClick ? null : handleClick}
       onPointerOver={handlePointerOver}
       onPointerOut={handlePointerOut}
     >
