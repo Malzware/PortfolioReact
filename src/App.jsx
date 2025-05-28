@@ -28,8 +28,10 @@ function AnimatedRoutes({ darkMode, toggleTheme, hasVisitedHome }) {
 
   return (
     <>
-      {<Header darkMode={darkMode} toggleTheme={toggleTheme} />}
-
+      {location.pathname !== '/' && (
+        <Header darkMode={darkMode} toggleTheme={toggleTheme} />
+      )}
+      
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route

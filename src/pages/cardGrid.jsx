@@ -2,10 +2,10 @@ import * as React from 'react';
 import CustomCard from '../components/card.jsx';
 import { Box, Typography, useTheme, useMediaQuery } from '@mui/material';
 import { motion } from 'framer-motion';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
+import * as THREE from 'three';
 import BlobShader from '../components/blobShader.jsx';
 import CustomCursor from '../components/customCursor.jsx';
-
 
 const cardData = [
     {
@@ -234,6 +234,77 @@ const PlusCard = ({ onClick, isDarkMode }) => {
     );
 };
 
+// Composant séparé pour l'animation du blob (à utiliser DANS le Canvas)
+const AnimatedBlobMesh = () => {
+    const mesh = React.useRef();
+    const uniforms = React.useRef({ time: { value: 0 } });
+
+    // Maintenant useFrame est utilisé à l'intérieur du Canvas
+    useFrame(({ clock }) => {
+        uniforms.current.time.value = clock.getElapsedTime();
+    });
+
+    // Shader personnalisé avec la couleur FF36C9
+    const vertexShader = `
+        uniform float time;
+        varying vec2 vUv;
+        void main() {
+            vUv = uv;
+            vec3 pos = position;
+            float freq = 3.0;
+            float amp = 0.2;
+            pos += normal * sin(freq * pos.x + time) * amp;
+            pos += normal * sin(freq * pos.y + time * 1.1) * amp;
+            pos += normal * sin(freq * pos.z + time * 1.2) * amp;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+        }
+    `;
+
+    const fragmentShader = `
+        uniform float time;
+        varying vec2 vUv;
+        void main() {
+            float pulse = sin(time * 2.0 + vUv.x * 10.0) * 0.05 + 0.95;
+            // Couleur FF36C9 en RGB normalisé
+            vec3 pink = vec3(1.0, 0.212 * pulse, 0.788 * pulse);
+            gl_FragColor = vec4(pink, 1.0);
+        }
+    `;
+
+    return (
+        <mesh ref={mesh} scale={0.8}>
+            <sphereGeometry args={[1, 128, 128]} />
+            <shaderMaterial
+                vertexShader={vertexShader}
+                fragmentShader={fragmentShader}
+                uniforms={uniforms.current}
+                side={THREE.DoubleSide}
+            />
+        </mesh>
+    );
+};
+
+// Composant pour les placeholders blob (corrigé)
+const PlaceholderBlob = ({ card }) => {
+    return (
+        <Box
+            sx={{
+                width: '100%',
+                height: '100%',
+                borderRadius: '8px',
+                overflow: 'hidden',
+            }}
+            title={`${card.title} - ${card.tags.join(', ')}`}
+        >
+            <Canvas camera={{ position: [0, 0, 3] }}>
+                <ambientLight intensity={0.3} />
+                <pointLight position={[5, 5, 5]} intensity={0.5} />
+                <AnimatedBlobMesh />
+            </Canvas>
+        </Box>
+    );
+};
+
 export default function CardGrid() {
     const [selectedTag, setSelectedTag] = React.useState('ALL');
     const allTags = ['ALL', 'Web-Development', 'GAMES', 'UI/UX'];
@@ -251,7 +322,6 @@ export default function CardGrid() {
     }));
 
     const visibleCards = processedCards.filter(card => card.isVisible && !card.isDecorative);
-    const placeholderColors = ['#FF36C9'];
 
     const getGridDimensions = (card) => {
         if (isMobile) {
@@ -486,28 +556,8 @@ export default function CardGrid() {
                                             />
                                         )
                                     ) : (
-                                        <Box
-                                            sx={{
-                                                width: '100%',
-                                                height: '100%',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                borderRadius: '8px',
-                                                transition: 'transform 0.3s ease',
-                                            }}
-                                        >
-                                            <Box
-                                                sx={{
-                                                    width: '30%',
-                                                    height: '30%',
-                                                    backgroundColor: placeholderColors[index % placeholderColors.length],
-                                                    borderRadius: '4px',
-                                                    opacity: 0.6,
-                                                }}
-                                                title={`${card.title} - ${card.tags.join(', ')}`}
-                                            />
-                                        </Box>
+                                        // Remplacement des rectangles par des blobs
+                                        <PlaceholderBlob card={card} />
                                     )}
                                 </motion.div>
                             ))}
