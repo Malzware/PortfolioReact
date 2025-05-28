@@ -5,19 +5,15 @@ import { useTheme } from '@mui/material';
 const SlidePageTransition = ({ children }) => {
   const theme = useTheme();
 
-  // Empêcher le scroll pendant la transition
   useEffect(() => {
-    // Sauvegarder l'état actuel du body
     const body = document.body;
     const originalOverflow = body.style.overflow;
     
-    // Désactiver le scroll pendant la transition
     body.style.overflow = 'hidden';
     
-    // Restaurer après la transition
     const timer = setTimeout(() => {
       body.style.overflow = originalOverflow;
-    }, 600); // Durée de l'animation
+    }, 600); 
 
     return () => {
       clearTimeout(timer);
@@ -75,14 +71,14 @@ const SlidePageTransition = ({ children }) => {
   return (
     <motion.div
       style={{
-        position: 'fixed', // Changed from absolute to fixed
+        position: 'fixed', 
         top: 0,
         left: 0,
-        width: '100vw', // Use viewport units for consistency
+        width: '100vw', 
         height: '100vh',
         backgroundColor: theme.palette.background.default,
         zIndex: 1,
-        overflow: 'hidden', // Explicitly hide overflow on the container
+        overflow: 'hidden', 
       }}
       variants={slideVariants}
       initial="initial"
@@ -94,8 +90,8 @@ const SlidePageTransition = ({ children }) => {
           width: '100%',
           height: '100%',
           paddingTop: '64px',
-          overflow: 'auto', // Allow scrolling only on the content
-          // Hide scrollbar while maintaining scroll functionality
+          overflow: 'auto', 
+
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
         }}
@@ -105,9 +101,7 @@ const SlidePageTransition = ({ children }) => {
         exit="exit"
       >
         <div style={{ 
-          // Additional wrapper to ensure proper scrolling
           minHeight: 'calc(100vh - 64px)',
-          // Hide webkit scrollbar
           '&::WebkitScrollbar?': {
             display: 'none',
           },

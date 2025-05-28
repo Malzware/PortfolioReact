@@ -40,14 +40,14 @@ const WelcomeLoader = ({ isVisible, onComplete }) => {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        backgroundColor: theme.palette.background.default, // Adapté au thème
-                        opacity: 1, // Opacité de 1
+                        backgroundColor: theme.palette.background.default, 
+                        opacity: 1, 
                     }}
                 >
                     <Box
                         sx={{
                             textAlign: 'center',
-                            color: theme.palette.text.primary, // Adapté au thème
+                            color: theme.palette.text.primary, 
                             px: 4,
                         }}
                     >

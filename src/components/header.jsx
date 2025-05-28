@@ -30,7 +30,7 @@ export default function Header({ darkMode, toggleTheme }) {
 
   const handleNavigation = (path) => {
     navigate(path)
-    setMobileOpen(false) // Fermer le drawer après navigation
+    setMobileOpen(false)
   }
 
   const navItems = [
@@ -39,7 +39,6 @@ export default function Header({ darkMode, toggleTheme }) {
     { label: 'Contact', path: '/contact' }
   ]
 
-  // Menu mobile drawer
   const drawer = (
     <Box
       sx={{
@@ -149,7 +148,6 @@ export default function Header({ darkMode, toggleTheme }) {
               cursor: 'pointer',
               fontSize: { xs: '0.6rem', sm: '1rem' },
               fontWeight: 'bold',
-              // Responsive text - plus court sur mobile
               display: { xs: 'none', sm: 'block' }
             }}
           >

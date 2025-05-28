@@ -1,4 +1,3 @@
-// components/BlobShader.jsx
 import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
@@ -11,7 +10,7 @@ const vertexShader = `
     vec3 pos = position;
     float freq = 3.0;
     float amp = 0.2;
-    // Déformation basée sur la sinusoïde du temps et de la position
+
     pos += normal * sin(freq * pos.x + time) * amp;
     pos += normal * sin(freq * pos.y + time * 1.1) * amp;
     pos += normal * sin(freq * pos.z + time * 1.2) * amp;
@@ -24,7 +23,7 @@ const fragmentShader = `
   varying vec2 vUv;
   void main() {
     float pulse = sin(time * 2.0 + vUv.x * 10.0) * 0.05 + 0.95;
-    vec3 pink = vec3(1.0, 0.2 * pulse, 0.6 * pulse); // Rose animé
+    vec3 pink = vec3(1.0, 0.2 * pulse, 0.6 * pulse); 
     gl_FragColor = vec4(pink, 1.0);
   }
 `;

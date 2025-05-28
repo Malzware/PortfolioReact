@@ -1,4 +1,3 @@
-// pages/CardGrid.jsx
 import * as React from 'react';
 import CustomCard from '../components/card.jsx';
 import { Box, Typography, useTheme, useMediaQuery } from '@mui/material';
@@ -182,7 +181,6 @@ const cardData = [
     },
 ];
 
-// Composant pour la carte "+" animée
 const PlusCard = ({ onClick, isDarkMode }) => {
     const [isHovered, setIsHovered] = React.useState(false);
 
@@ -243,7 +241,6 @@ export default function CardGrid() {
     const theme = useTheme();
     const isDarkMode = theme.palette.mode === 'dark';
 
-    // Breakpoints responsive avec MUI
     const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // < 600px
     const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md')); // 600px - 960px
     const isDesktop = useMediaQuery(theme.breakpoints.up('lg')); // > 1200px
@@ -256,7 +253,6 @@ export default function CardGrid() {
     const visibleCards = processedCards.filter(card => card.isVisible && !card.isDecorative);
     const placeholderColors = ['#FF36C9'];
 
-    // Fonction pour adapter les dimensions de la grille selon l'écran
     const getGridDimensions = (card) => {
         if (isMobile) {
             return {
@@ -405,7 +401,6 @@ export default function CardGrid() {
                         ))}
                     </Box>
                 ) : (
-                    // Layout desktop/tablette : grille
                     <Box
                         sx={{
                             display: 'grid',

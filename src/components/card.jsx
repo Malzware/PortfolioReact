@@ -1,4 +1,3 @@
-// components/Card.jsx
 import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -44,14 +43,12 @@ export default function CustomCard({ image, title, tags = [], bubbleText, descri
 
     return (
         <Card
-            // Attribut data pour le curseur personnalisé
             data-has-link={link ? "true" : "false"}
             sx={{
                 width: '100%',
                 height: '100%',
                 position: 'relative',
                 overflow: 'hidden',
-                // Curseur masqué quand il y a un lien (remplacé par le curseur custom)
                 cursor: link ? 'none' : 'default',
                 display: 'flex',
                 flexDirection: 'column',

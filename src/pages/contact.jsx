@@ -38,7 +38,6 @@ export default function Contact() {
     }
   }, [])
 
-  // Configuration responsive pour le Canvas
   const canvasConfig = {
     width: isMobile ? 250 : isTablet ? 280 : 300,
     height: isMobile ? 250 : isTablet ? 280 : 300,
@@ -91,8 +90,8 @@ export default function Contact() {
           minHeight: { xs: 'auto', md: '750px' },
           maxWidth: '1200px',
           alignItems: 'center',
-          justifyContent: { xs: 'center', md: 'flex-start' },  // <-- Ajouté ici pour centrer sur mobile
-          textAlign: { xs: 'center', md: 'left' }            // <-- Ajouté ici pour texte centré sur mobile
+          justifyContent: { xs: 'center', md: 'flex-start' },  
+          textAlign: { xs: 'center', md: 'left' }            
         }}
         spacing={{ xs: 4, md: 0 }}
       >
@@ -103,7 +102,7 @@ export default function Contact() {
           sx={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: { xs: 'center', md: 'center' },  // <-- Centrage horizontal sur mobile
+            justifyContent: { xs: 'center', md: 'center' },  
             order: { xs: 1, md: 1 },
             mb: { xs: 2, md: 0 }
           }}
@@ -138,7 +137,7 @@ export default function Contact() {
             alignItems: 'center',
             justifyContent: { xs: 'center', md: 'flex-start' },
             order: { xs: 2, md: 2 },
-            textAlign: { xs: 'center', md: 'left' }             // <-- Assure centrage texte sur mobile
+            textAlign: { xs: 'center', md: 'left' }             
           }}
         >
           <Box
@@ -213,7 +212,7 @@ export default function Contact() {
                       color: theme.palette.primary.main,
                       transform: textLines[link.key] ? 'translateY(-2px)' : 'translateY(30px)',
                     },
-                    // Style mobile spécifique
+
                     ...(isMobile && {
                       py: 1,
                       px: 3,

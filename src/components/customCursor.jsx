@@ -1,4 +1,3 @@
-// components/CustomCursor.jsx
 import * as React from 'react';
 import { Box } from '@mui/material';
 
@@ -13,7 +12,6 @@ const CustomCursor = () => {
         };
 
         const handleMouseEnter = (e) => {
-            // Vérifier si on survole une carte avec un lien
             const target = e.target.closest('[data-has-link="true"]');
             if (target) {
                 setIsHoveringCard(true);
@@ -29,10 +27,8 @@ const CustomCursor = () => {
             }
         };
 
-        // Écouter les mouvements de souris globalement
         document.addEventListener('mousemove', updatePosition);
         
-        // Écouter les événements sur les cartes
         document.addEventListener('mouseenter', handleMouseEnter, true);
         document.addEventListener('mouseleave', handleMouseLeave, true);
 
