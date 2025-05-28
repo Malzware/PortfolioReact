@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { motion } from 'framer-motion';
 import { Canvas } from '@react-three/fiber';
@@ -8,7 +8,7 @@ const containerVariants = {
     hidden: {},
     show: {
         transition: {
-            staggerChildren: 0.3,
+            staggerChildren: 0.3, // 600 ms entre chaque phrase
         },
     },
 };
@@ -38,19 +38,6 @@ const About = () => {
     const skills1 = ["HTML", "CSS", "JAVASCRIPT", "ANGULAR", "REACT", "PHP", "SYMFONY", "NODEJS", "LARAVEL", "UNITY"];
     const skills2 = ["TAILWIND CSS", "MATERIAL UI", "MYSQL", "SQLITE", "DOCKER", "GIT", "FIGMA", "ADOBE SUITE"];
 
-    // Gestion de l'affichage progressif des phrases "Who Am I?"
-    const [visibleCount, setVisibleCount] = useState(1);
-
-    useEffect(() => {
-        if (visibleCount >= phrases.length) return;
-
-        const interval = setInterval(() => {
-            setVisibleCount((count) => Math.min(count + 1, phrases.length));
-        }, 3500);
-
-        return () => clearInterval(interval);
-    }, [visibleCount, phrases.length]);
-
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', padding: '14px' }}>
             {/* Section du haut - 60% */}
@@ -67,24 +54,30 @@ const About = () => {
                 {/* Haut droite */}
                 <Box sx={{ width: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Box style={{ textAlign: 'left' }}>
-                        <Typography variant="h1" component="h1" gutterBottom>
-                            <span style={{ fontFamily: "'Cormorant', serif" }}>WHO </span>
-                            <span style={{ fontFamily: "'Intern', sans-serif" }}>AM I ?</span>
+                        <Typography variant="h1" component="h1" gutterBottom sx={{ fontFamily: "'Inter', serif" }}>
+                            <span style={{ fontFamily: "'Cormorant', serif", fontSize: '120px', display: 'inline-block' }}>WHO </span>
+                            <span style={{ fontFamily: "'Inter', sans-serif" }}>AM I ?</span>
                         </Typography>
 
-                        {phrases.slice(0, visibleCount).map((text, index) => (
-                            <motion.div
-                                key={index}
-                                variants={sentenceVariants}
-                                initial="hidden"
-                                animate="show"
-                                style={{ marginBottom: 12 }}
-                            >
-                                <Typography variant="body1" color="text.primary">
-                                    {text}
-                                </Typography>
-                            </motion.div>
-                        ))}
+
+                        {/* Ici on remplace l'ancien code par framer motion pour l'animation */}
+                        <motion.div
+                            variants={containerVariants}
+                            initial="hidden"
+                            animate="show"
+                        >
+                            {phrases.map((text, index) => (
+                                <motion.div
+                                    key={index}
+                                    variants={sentenceVariants}
+                                    style={{ marginBottom: 12 }}
+                                >
+                                    <Typography variant="body1" color="text.primary">
+                                        {text}
+                                    </Typography>
+                                </motion.div>
+                            ))}
+                        </motion.div>
                     </Box>
                 </Box>
             </Box>

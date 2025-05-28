@@ -16,15 +16,15 @@ export default function Header({ darkMode, toggleTheme }) {
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar
-                position="fixed" // Changé en fixed pour rester au-dessus
-                sx={{
+                position="fixed"
+                sx={(theme) => ({
                     backgroundColor: 'transparent',
                     boxShadow: 'none',
-                    color: 'text.primary',
+                    color: theme.palette.text.primary,  // <== couleur dynamique thème
                     backgroundImage: 'none',
-                    zIndex: 1100, // Z-index élevé pour rester au-dessus des transitions
-                    backdropFilter: 'blur(10px)', // Effet de flou pour un rendu moderne
-                }}
+                    zIndex: 1100,
+                    backdropFilter: 'blur(10px)',
+                })}
             >
                 <Toolbar>
                     <Typography
@@ -34,8 +34,8 @@ export default function Header({ darkMode, toggleTheme }) {
                         sx={{
                             flexGrow: 1,
                             textDecoration: 'none',
-                            color: 'inherit',
-                            cursor: 'pointer'
+                            color: 'inherit',  // hérite de AppBar (donc text.primary)
+                            cursor: 'pointer',
                         }}
                     >
                         DEVELOPER & UI / UX DESIGNER
@@ -77,7 +77,7 @@ export default function Header({ darkMode, toggleTheme }) {
                     </Box>
                 </Toolbar>
             </AppBar>
-            {/* Spacer pour compenser le header fixe */}
+            {/* Spacer pour compenser la hauteur du header fixe */}
             <Toolbar />
         </Box>
     )

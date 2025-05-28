@@ -104,42 +104,42 @@ function App() {
     typography: {
       fontFamily: 'Inter, sans-serif',
       h1: {
-        fontFamily: 'Outfit, sans-serif',
+        fontFamily: 'Inter, sans-serif',
         fontSize: '100px',
         fontWeight: 700,
       },
       h2: {
-        fontFamily: 'Outfit, sans-serif',
-        fontSize: '2.5rem',
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '40px',  // 2.5rem = 40px
         fontWeight: 600,
       },
       h3: {
-        fontFamily: 'Outfit, sans-serif',
-        fontSize: '2rem',
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '32px',  // 2rem = 32px
         fontWeight: 600,
       },
       h4: {
-        fontFamily: 'Outfit, sans-serif',
-        fontSize: '1.5rem',
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '24px',  // 1.5rem = 24px
         fontWeight: 500,
       },
       h5: {
-        fontFamily: 'Outfit, sans-serif',
-        fontSize: '1.25rem',
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '20px',  // 1.25rem = 20px
         fontWeight: 500,
       },
       h6: {
-        fontFamily: 'Outfit, sans-serif',
-        fontSize: '1rem',
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '16px',  // 1rem = 16px
         fontWeight: 500,
       },
       body1: {
         fontFamily: 'Inter, sans-serif',
-        fontSize: '1rem',
+        fontSize: '16px',  // 1rem = 16px
       },
       body2: {
         fontFamily: 'Inter, sans-serif',
-        fontSize: '0.875rem',
+        fontSize: '14px',  // 0.875rem = 14px
       },
     },
   });
@@ -182,12 +182,12 @@ function App() {
               display: 'none',
             },
           },
-          h1: { fontFamily: 'Outfit, sans-serif' },
-          h2: { fontFamily: 'Outfit, sans-serif' },
-          h3: { fontFamily: 'Outfit, sans-serif' },
-          h4: { fontFamily: 'Outfit, sans-serif' },
-          h5: { fontFamily: 'Outfit, sans-serif' },
-          h6: { fontFamily: 'Outfit, sans-serif' },
+          h1: { fontFamily: 'Inter, sans-serif' },
+          h2: { fontFamily: 'Inter, sans-serif' },
+          h3: { fontFamily: 'Inter, sans-serif' },
+          h4: { fontFamily: 'Inter, sans-serif' },
+          h5: { fontFamily: 'Inter, sans-serif' },
+          h6: { fontFamily: 'Inter, sans-serif' },
           '.MuiCardContent-root:last-child': {
             paddingBottom: '0 !important',
           },

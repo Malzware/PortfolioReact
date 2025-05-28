@@ -30,13 +30,13 @@ const cardData = [
         size: 'large',
         gridColumn: 3,
         gridRow: 1,
-        width: 1,
+        width: 2,
         height: 3,
         link: 'https://github.com/Malzware/PortfolioReact'
     },
     {
         id: 3,
-        image: '/src/assets/img/unity1.png',
+        image: '/src/assets/img/woodkid1-ps.a05a9780.png',
         title: 'Scripts NodeJS',
         tags: ['SCRIPTS'],
         description: 'Automatisation de processus via NodeJS dans le cadre de mon stage dans l\'entreprise Cyclovis',
@@ -63,7 +63,7 @@ const cardData = [
     },
     {
         id: 5,
-        image: '/src/assets/img/unity1.png',
+        image: '/src/assets/img/roulezEcolo.png',
         title: 'Déploiement d\'une nouvelle interface web',
         tags: ['Web-Development'],
         description: 'Déploiement d\'une nouvelle interface web pour le site de la marque Autoradio-GPS.',
@@ -77,7 +77,7 @@ const cardData = [
     },
     {
         id: 6,
-        image: '/src/assets/img/unity1.png',
+        image: '/src/assets/img/monk1.b12f1b43.png',
         title: 'Texte',
         tags: ['UI/UX'],
         description: 'Texte',
@@ -89,34 +89,8 @@ const cardData = [
         height: 2,
     },
     {
-        id: 7,
-        image: '/src/assets/img/unity1.png',
-        title: 'Texte',
-        tags: ['Web-Development'],
-        description: 'Texte',
-        bubbleText: 'Texte',
-        size: 'large',
-        gridColumn: 4,
-        gridRow: 2,
-        width: 1,
-        height: 1,
-    },
-    {
-        id: 8,
-        image: '/src/assets/img/unity1.png',
-        title: 'Texte',
-        tags: ['SCRIPTS'],
-        description: 'Texte',
-        bubbleText: 'Texte',
-        size: 'large',
-        gridColumn: 4,
-        gridRow: 3,
-        width: 1,
-        height: 1,
-    },
-    {
         id: 9,
-        image: '/src/assets/img/unity1.png',
+        image: '/src/assets/img/maquette-refonte-AGPS-1200-01.jpg',
         title: 'Texte',
         tags: ['Web-Development'],
         description: 'Texte',
@@ -127,7 +101,22 @@ const cardData = [
         width: 1,
         height: 2,
     },
-
+    {
+        id: 98,
+        image: '',
+        title: 'Blob Decoration', // Ce titre ne sera pas affiché
+        tags: [], // Pas de tags pour la décoration
+        description: 'Élément décoratif',
+        bubbleText: '',
+        size: 'large',
+        gridColumn: 1,
+        gridRow: 5,
+        width: 1,
+        height: 1,
+        // ✅ Marquer cette carte comme décorative ET avec le blob
+        isDecorative: true,
+        showBlob: true
+    },
     {
         id: 99,
         image: '',
@@ -322,7 +311,7 @@ export default function CardGrid() {
                         display: 'grid',
                         gridTemplateColumns: 'repeat(4, 1fr)',
                         gridAutoRows: '200px',
-                        gap: 2,
+                        gap: 0,
                         width: '100%',
                         maxWidth: '100vw',
                         padding: 0,
@@ -331,12 +320,12 @@ export default function CardGrid() {
                         '@media (min-width: 601px) and (max-width: 960px)': {
                             gridTemplateColumns: 'repeat(3, 1fr)',
                             gridAutoRows: '180px',
-                            gap: 2,
+                            gap: 0,
                         },
                         '@media (min-width: 961px)': {
                             gridTemplateColumns: 'repeat(4, 1fr)',
                             gridAutoRows: '200px',
-                            gap: 2,
+                            gap: 0,
                         }
                     }}
                 >
@@ -350,6 +339,7 @@ export default function CardGrid() {
                                     minHeight: 0,
                                     minWidth: 0,
                                     boxSizing: 'border-box',
+                                    border: '1px solid white', // <-- ajout de contour blanc autour de chaque cellule
                                 }}
                                 initial={{ opacity: 0, y: 50 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -378,7 +368,7 @@ export default function CardGrid() {
                                                 {/* ✅ Passer disableClick={true} pour désactiver le onClick */}
                                                 <BlobShader
                                                     disableClick={true}
-                                                    scale={1.2} // Réduire la taille (défaut était 1.5)
+                                                    scale={1} // Réduire la taille (défaut était 1.5)
                                                 />
                                             </Canvas>
                                         </Box>
