@@ -55,7 +55,7 @@ const CustomCursor = () => {
         >
             <Box
                 sx={{
-                    background: 'linear-gradient(135deg, #FF36C9 0%, #FF1493 100%)',
+                    background: 'linear-gradient(135deg, #FF36C9 100%)',
                     color: 'white',
                     px: 2,
                     py: 1,

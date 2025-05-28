@@ -23,7 +23,7 @@ const fragmentShader = `
   varying vec2 vUv;
   void main() {
     float pulse = sin(time * 2.0 + vUv.x * 10.0) * 0.05 + 0.95;
-    vec3 pink = vec3(1.0, 0.2 * pulse, 0.6 * pulse); 
+    vec3 pink = vec3(1.0, 0.2117 * pulse, 0.788 * pulse);
     gl_FragColor = vec4(pink, 1.0);
   }
 `;
