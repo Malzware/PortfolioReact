@@ -5,18 +5,17 @@ import CardContent from '@mui/material/CardContent';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
+const tagColors = {
+    'GAMES': '#00FF30',
+    'WEB-DEVELOPMENT': '#FF5100',
+    'SCRIPTS': '#DEFF00',
+    'UI/UX': '#FF36C9',
+};
+
 const getOverlayColorByTag = (tags) => {
-    const mainTag = tags[0]?.toLowerCase();
-    switch (mainTag) {
-        case 'games':
-            return '#052843';
-        case 'web-development':
-            return '#F9CB2E';
-        case 'scripts':
-            return '#A66455';
-        default:
-            return 'rgba(0, 0, 0, 0.7)';
-    }
+    if (!tags.length) return 'rgba(0,0,0,0.7)';
+    const mainTag = tags[0].toUpperCase();
+    return tagColors[mainTag] || 'rgba(0, 0, 0, 0.7)';
 };
 
 export default function CustomCard({ image, title, tags = [], bubbleText, description, size, link }) {

@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
 import { motion } from 'framer-motion';
+import { Canvas } from '@react-three/fiber';
+import BlobShader from '../components/blobShader.jsx';
 
 const containerVariants = {
     hidden: {},
@@ -33,8 +35,21 @@ const About = () => {
         "HACKATHON 2022 - ENEDIS : Premier Prix",
     ];
 
-    const skills1 = ["HTML", "CSS", "JAVASCRIPT", "ANGULAR", "REACT", "PHP", "SYMFONY", "NODEJS", "LARAVEL"];
+    const skills1 = ["HTML", "CSS", "JAVASCRIPT", "ANGULAR", "REACT", "PHP", "SYMFONY", "NODEJS", "LARAVEL", "UNITY"];
     const skills2 = ["TAILWIND CSS", "MATERIAL UI", "MYSQL", "SQLITE", "DOCKER", "GIT", "FIGMA", "ADOBE SUITE"];
+
+    // Gestion de l'affichage progressif des phrases "Who Am I?"
+    const [visibleCount, setVisibleCount] = useState(1);
+
+    useEffect(() => {
+        if (visibleCount >= phrases.length) return;
+
+        const interval = setInterval(() => {
+            setVisibleCount((count) => Math.min(count + 1, phrases.length));
+        }, 3500);
+
+        return () => clearInterval(interval);
+    }, [visibleCount, phrases.length]);
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', padding: '14px' }}>
@@ -42,46 +57,35 @@ const About = () => {
             <Box sx={{ height: '60%', display: 'flex' }}>
                 {/* Haut gauche */}
                 <Box sx={{ width: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <motion.div
-                        variants={containerVariants}
-                        initial="hidden"
-                        animate="show"
-                    >
-                        <motion.div variants={sentenceVariants}>
-                            <Typography variant="h3" component="h1" gutterBottom>
-                                À Propos
-                            </Typography>
-                        </motion.div>
-                        <motion.div variants={sentenceVariants}>
-                            <Typography variant="body1" color="text.secondary">
-                                Découvrez notre histoire et notre mission
-                            </Typography>
-                        </motion.div>
-                    </motion.div>
+                    <Canvas style={{ width: '100%', height: 300, cursor: 'pointer' }} camera={{ position: [0, 0, 4] }}>
+                        <ambientLight intensity={0.5} />
+                        <pointLight position={[10, 10, 10]} />
+                        <BlobShader />
+                    </Canvas>
                 </Box>
 
                 {/* Haut droite */}
                 <Box sx={{ width: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <motion.div
-                        variants={containerVariants}
-                        initial="hidden"
-                        animate="show"
-                        style={{ textAlign: 'left' }}
-                    >
-                        <motion.div variants={sentenceVariants}>
-                            <Typography variant="h1" component="h1" gutterBottom>
-                                <span style={{ fontFamily: "'Cormorant', serif" }}>WHO </span>
-                                <span style={{ fontFamily: "'Outfit', sans-serif" }}>AM I ?</span>
-                            </Typography>
-                        </motion.div>
-                        {phrases.map((text, index) => (
-                            <motion.div key={index} variants={sentenceVariants}>
-                                <Typography variant="body1" color="text.primary" sx={{ pb: 2 }}>
+                    <Box style={{ textAlign: 'left' }}>
+                        <Typography variant="h1" component="h1" gutterBottom>
+                            <span style={{ fontFamily: "'Cormorant', serif" }}>WHO </span>
+                            <span style={{ fontFamily: "'Intern', sans-serif" }}>AM I ?</span>
+                        </Typography>
+
+                        {phrases.slice(0, visibleCount).map((text, index) => (
+                            <motion.div
+                                key={index}
+                                variants={sentenceVariants}
+                                initial="hidden"
+                                animate="show"
+                                style={{ marginBottom: 12 }}
+                            >
+                                <Typography variant="body1" color="text.primary">
                                     {text}
                                 </Typography>
                             </motion.div>
                         ))}
-                    </motion.div>
+                    </Box>
                 </Box>
             </Box>
 
