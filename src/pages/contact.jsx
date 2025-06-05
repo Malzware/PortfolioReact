@@ -11,7 +11,6 @@ export default function Contact() {
     mail: false,
     discord: false,
     linkedin: false,
-    cv: false
   })
 
   const theme = useTheme()
@@ -29,7 +28,6 @@ export default function Contact() {
       setTimeout(() => setTextLines(prev => ({ ...prev, mail: true })), 1200),
       setTimeout(() => setTextLines(prev => ({ ...prev, discord: true })), 1400),
       setTimeout(() => setTextLines(prev => ({ ...prev, linkedin: true })), 1600),
-      setTimeout(() => setTextLines(prev => ({ ...prev, cv: true })), 1800)
     ]
 
     return () => {
@@ -63,12 +61,6 @@ export default function Contact() {
       href: 'https://www.linkedin.com/in/victor-briaux/',
       external: true
     },
-    {
-      key: 'cv',
-      label: 'CV',
-      href: 'https://www.youtube.com/watch?v=bePCRKGUwAY',
-      external: true
-    }
   ]
 
   return (
