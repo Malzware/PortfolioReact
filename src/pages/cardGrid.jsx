@@ -10,7 +10,7 @@ import CustomCursor from '../components/customCursor.jsx';
 const cardData = [
     {
         id: 1,
-        image: '/src/assets/img/unity1.png',
+        image: '/assets/img/unity1.png',
         title: 'Unity 3D Project',
         tags: ['GAMES'],
         description: 'Imagination and development of a living environment in 2050, based on the VR scenario, using Unity.',
@@ -23,7 +23,7 @@ const cardData = [
     },
     {
         id: 2,
-        image: '/src/assets/img/sleep1-ps.8b270d24.png',
+        image: '/assets/img/sleep1-ps.8b270d24.png',
         title: 'Sleep Application Prototype',
         tags: ['UI/UX'],
         description: 'Design and prototyping of a mobile app aimed at helping students sleep better.',
@@ -37,7 +37,7 @@ const cardData = [
     },
     {
         id: 3,
-        image: '/src/assets/img/woodkid1-ps.a05a9780.png',
+        image: '/assets/img/woodkid1-ps.a05a9780.png',
         title: 'Woodkid Website Prototype',
         tags: ['UI/UX'],
         description: 'Created a website prototype to showcase the artist Woodkid and his universe. Both Web and Mobile versions.',
@@ -51,7 +51,7 @@ const cardData = [
     },
     {
         id: 4,
-        image: '/src/assets/img/pink.png',
+        image: '/assets/img/pink.png',
         title: 'Portfolio',
         tags: ['Web-Development'],
         description: 'Concept and development of my portfolio.',
@@ -65,7 +65,7 @@ const cardData = [
     },
     {
         id: 5,
-        image: '/src/assets/img/RoulezEcoloMockUp.png',
+        image: '/assets/img/RoulezEcoloMockUp.png',
         title: 'E-commerce Tool Development',
         tags: ['Web-Development'],
         description: 'Developed a web calculator comparing consumption of electric vs combustion vehicles for an e-commerce site.',
@@ -79,7 +79,7 @@ const cardData = [
     },
     {
         id: 6,
-        image: '/src/assets/img/MonkeysInvasion.png',
+        image: '/assets/img/MonkeysInvasion.png',
         title: 'Monkey\'s Invasion Video Game',
         tags: ['GAMES'],
         description: 'Developed a video game in JavaScript using the Phaser library.',
@@ -93,7 +93,7 @@ const cardData = [
     },
     {
         id: 7,
-        image: '/src/assets/img/ATGPS.png',
+        image: '/assets/img/ATGPS.png',
         title: 'Autoradio-GPS',
         tags: ['Web-Development'],
         description: 'Developed scripts to automate various tasks using NodeJS and APIs. Redesigned the homepage of the website.',
@@ -107,7 +107,7 @@ const cardData = [
     },
     {
         id: 8,
-        image: '/src/assets/img/Pokemon.png',
+        image: '/assets/img/Pokemon.png',
         title: 'Pokédex Website',
         tags: ['Web-Development'],
         description: 'Developed a "Pokédex" website from a mockup by another student, using Laravel, Angular & TailwindCSS.',
