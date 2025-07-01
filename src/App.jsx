@@ -6,7 +6,7 @@ import {
   CssBaseline,
   createTheme
 } from '@mui/material'
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
+import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 
 import './App.css'
