@@ -364,7 +364,7 @@ export default function CardGrid() {
     });
 
     const handleCustomProjectClick = () => {
-        window.location.href = 'http://localhost:5173/contact';
+        window.location.href = 'https://portfolio.victorbriaux.com/#/contact';
     };
 
     return (
