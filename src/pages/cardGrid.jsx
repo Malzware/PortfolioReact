@@ -131,7 +131,7 @@ const cardData = [
         gridRow: 8,
         width: 1,
         height: 1,
-        link: 'http://localhost:5173/contact',
+        link: 'https://portfolio.victorbriaux.com/#/contact',
         isCustomProject: true
     },
     {
